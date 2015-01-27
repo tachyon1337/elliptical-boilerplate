@@ -1,0 +1,49 @@
+<script src="address-form.js"></script>
+ <address-form>
+     <template>
+         <form method="POST" action="" id="elliptical-address-form">
+             <input type="hidden" value="{id}" name="id" />
+             <input type="hidden" value="{userId}" name="userId" />
+
+             <input type="text" name="firstName" data-bind="value:firstName" id="firstName" class="third {firstName_error}"
+                    placeholder="{@placeholder value="{firstName_placeholder}" defaultValue="First Name" /}" value="{firstName}">
+            
+             <input type="text" name="middleName" data-bind="value:middleName" id="middleName" class="third {middleName_error}"
+                    placeholder="{@placeholder value="{middleName_placeholder}" defaultValue="Middle Name" /}" value="{middleName}">
+            
+             <input type="text" name="lastName" data-bind="value:lastName" id="lastName" class="third {lastName_error}"
+                    placeholder="{@placeholder value="{lastName_placeholder}" defaultValue="Last Name" /}" value="{lastName}">
+
+             <input type="text" name="street" data-bind="value:street" id="street" class="{street_error}"
+                    placeholder="{@placeholder value="{street_placeholder}" defaultValue="Address" /}" value="{street}">
+
+             <input type="text" name="street2" data-bind="value:street2" id="street2" class="{street2_error}"
+                    placeholder="{@placeholder value="{street2_placeholder}" defaultValue="Address 2" /}" value="{street2}">
+
+             <input type="text" name="city" data-bind="value:city" id="city" class="{city_error}"
+                    placeholder="{@placeholder value="{city_placeholder}" defaultValue="City" /}" value="{city}">
+
+             <state-select field="state" html5-imported="true" class="{state_error}" id="state"></state-select>
+             <input type="hidden" name="state" data-bind="value:state" value="{state}">
+
+             <input type="text" name="zip" data-bind="value:zip" id="zip" class="{zip_error}"
+                    placeholder="{@placeholder value="{zip_placeholder}" defaultValue="Zip Code" /}" value="{zip}">
+
+             <input type="text" name="email" data-bind="value:email" id="email" class="{email_error}"
+                    placeholder="{@placeholder value="{email_placeholder}" defaultValue="Email" /}" value="{email}">
+
+             <input type="text" name="phone" data-bind="value:phone" id="phone" class="{phone_error}"
+                    placeholder="{@placeholder value="{phone_placeholder}" defaultValue="Telephone" /}" value="{phone}">
+
+             <input type="text" name="phone2" data-bind="value:phone2" id="phone2" class="hide {phone2_error}"
+                    placeholder="{@placeholder value="{phone2_placeholder}" defaultValue="Telephone 2" /}" value="{phone2}">
+
+             <ui-flex-container class="full-width">
+                 <button class="ui-button secondary large margin">Save</button>
+             </ui-flex-container>
+             {#submitLabel}
+             <label class="ui-semantic-label {css} {cssDisplay}">{message}&nbsp;</label>
+             {/submitLabel}
+         </form>
+     </template>
+ </address-form>

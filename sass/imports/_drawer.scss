@@ -1,0 +1,120 @@
+/* ui-drawer */
+
+/* private -----------------------------------------------------------------------------------------------------------*/
+@mixin _ui-drawer(
+$width:null,
+$header-height:null,
+$header-position:null,
+$z-index:null,
+$background:null
+){
+
+  min-height:100%;
+  height:100%;
+  overflow-x:hidden;
+  position:fixed;
+  display:none;
+  width:$width;
+  background:$background;
+
+  &>header{
+    position:$header-position;
+    @if $header-position != relative{
+      top:0;
+      left:0;
+    }
+    z-index:$z-index;
+    width:$width;
+    height:$header-height;
+  }
+
+  @media #{$breakpoint-touch}{
+    background:#fff;
+  }
+}
+
+/* public ------------------------------------------------------------------------------------------------------------*/
+@mixin touch-ui-drawer($class:null,$component:css-touch-drawer-black,$header-component:css-touch-drawer-header-black,$input-component:css-touch-search,
+$width:265px,
+$header-height:60px,
+$search-margin:12px 0 1px 7px,
+$search-width:80%,
+$search-padding:.3em,
+$search-font-size:16px,
+$search-input-border-radius:2px,
+$search-input-icon-top:.4em,
+$search-input-icon-right:.4em
+){
+
+  @media #{$breakpoint-desktop}{
+    touch-ui-drawer{
+      display:none;
+    }
+  }
+  @media #{$breakpoint-touch}{
+    touch-ui-drawer{
+      @if $class != null{
+        &.#{$class} {
+          @include _touch-ui-drawer($component,$header-component,$input-component,
+                  $width,
+                  $header-height,
+                  $search-margin,
+                  $search-width,
+                  $search-padding,
+                  $search-font-size,
+                  $search-input-border-radius,
+                  $search-input-icon-top,
+                  $search-input-icon-right
+          );
+
+        }
+      }@else{
+        @include _touch-ui-drawer($component,$header-component,$input-component,
+                $width,
+                $header-height,
+                $search-margin,
+                $search-width,
+                $search-padding,
+                $search-font-size,
+                $search-input-border-radius,
+                $search-input-icon-top,
+                $search-input-icon-right
+        );
+      }
+
+    }
+  }
+
+  touch-ui-drawer{
+    @if $class != null{
+      &.#{$class} {
+        @content;
+      }
+    }@else{
+      @content;
+    }
+  }
+
+}
+
+@mixin ui-drawer($class:null,
+$width:800px,
+$header-height:auto,
+$header-position:fixed,
+$z-index:$global-z-index + 99,
+$background:#f8f9fa
+){
+
+  ui-drawer{
+    @if $class != null{
+      &.#{$class} {
+        @include _ui-drawer($width,$header-height,$header-position,$z-index,$background);
+        @content;
+      }
+    }@else{
+      @include _ui-drawer($width,$header-height,$header-position,$z-index,$background);
+      @content;
+    }
+  }
+
+}

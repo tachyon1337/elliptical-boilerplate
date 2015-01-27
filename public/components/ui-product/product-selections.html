@@ -1,0 +1,30 @@
+﻿<script src="product-selections.js"></script>
+<product-selections>
+    <template>
+        <ui-loading-wave label="Loading Selections" channel="loading.selections" html5-imported="true" class="hide" show-on-load="true"></ui-loading-wave>
+        <ui-template id="fragment-product-selections">
+            {#refineModel}
+            {#columns}
+            {@if cond="'{isColor}'"}
+            <span class="colors-label">Colors</span>
+            <span class="selected-color" name="{column}" data-bind="text:refineModel.selected.color"></span>
+            <ui-flex-container class="top left wrap color-swatches">
+                {#filters}
+                <img src="{img}?width=45&height=23" data-color="{filter}" class="{selected}" alt="{filter}" title="{filter}" />
+                {/filters}
+            </ui-flex-container>
+            {:else}
+            <span class="selection-label">{label}</span>
+            <ui-select name="{column}">
+                <select data-role="{column}" data-bind="value:refineModel.selected.{column}">
+                    {#filters}
+                    <option value="{filter}" {selected}>{label}</option>
+                    {/filters}
+                </select>
+            </ui-select>
+            {/if}
+            {/columns}
+            {/refineModel}
+        </ui-template>
+    </template>
+</product-selections>

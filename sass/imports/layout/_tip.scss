@@ -1,0 +1,57 @@
+@mixin _ui-tip($background: null, $border-color: null, $right: null, $top: null, $position: null, $width: null) {
+
+  position: $position;
+  top: $top;
+  right: $right;
+  $before-right: 2*$width;
+  $after-right:$before-right + 1;
+  $after-width:$width - 1;
+  $after-top:$after-width - 1;
+
+  &.hide {
+    display: none;
+  }
+  &:before {
+    content: ' ';
+    border-style: solid;
+    border-width: 0 #{$width}px #{$width}px #{$width}px;
+    border-color: transparent transparent $border-color transparent;
+    position: absolute;
+    top: -#{$width}px;
+    right: #{$before-right}px;
+  }
+  &:after {
+    content: ' ';
+    border-style: solid;
+    border-width: 0 #{$after-width}px #{$after-width}px #{$after-width}px;
+    border-color: transparent transparent $background transparent;
+    position: absolute;
+    top: -#{$after-top}px;
+    right: #{$after-right}px;
+  }
+
+}
+
+@mixin ui-tip($class: null, $background: $white, $border-color: #ccc, $right: 5px, $top: 0, $position: absolute, $width: 15) {
+  $element-selector: '.ui-tip';
+  @if $component-custom-tags==true {
+    $element-selector: ui-tip
+  }
+  #{$element-selector} {
+    @if $class != null {
+      &.#{$class} {
+        @include _ui-tip($background, $border-color, $right, $top, $position, $width);
+        @content;
+      }
+    } @else {
+      @include _ui-tip($background, $border-color, $right, $top, $position, $width);
+      @content;
+    }
+  }
+  @include touch-content(){
+    #{$element-selector} {
+      display:none;
+    }
+  }
+
+}

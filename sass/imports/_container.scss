@@ -1,0 +1,620 @@
+﻿/*
+  flex containers: ui-flex-container, ui-flex-list,ui-flex-grid,ui-sticky-footer
+*/
+
+/* Private -----------------------------------------------------------------------------------------------------------*/
+
+@mixin _ui-flex-list(
+$first-child-max-width:null,
+$alt-background:null,
+$justification:null,
+$alignment:null,
+$padding:null
+){
+  list-style: none;
+  &>li,&>ui-model{
+    padding:$padding;
+    position:relative;
+    @include flexbox($justification:$justification,$alignment:$alignment);
+    a{
+      &:first-child{
+        max-width:$first-child-max-width;
+      }
+      &.ellipsis{
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        overflow:hidden;
+        display:block;
+      }
+    }
+    &:nth-child(even){
+      background:$alt-background;
+    }
+    .right{
+      margin-left:auto;
+    }
+  }
+}
+
+@mixin _ui-flex-grid(
+$columns:null,
+$grid-contain-columns:null,
+$tablet-columns:null,
+$tablet-small-columns:null,
+$justification:null,
+$alignment:null,
+$cell-justification:null,
+$cell-alignment:null,
+$cell-padding:null
+)
+{
+  width:100%;
+  $_column-percentage: columns-to-percentage($columns);
+  $_grid-contain-column-percentage: columns-to-percentage($grid-contain-columns);
+  $_tablet-column-percentage: columns-to-percentage($tablet-columns);
+  $_tablet-small-column-percentage: columns-to-percentage($tablet-small-columns);
+  @include display-flex();
+  @include justify-content($justification);
+  @include align-items($alignment);
+  @include flex-wrap(wrap);
+  &>li,&>grid-item{
+    width:$_column-percentage;
+    @include display-flex();
+    @include justify-content($cell-justification);
+    @include align-items($cell-alignment);
+    @include flex-direction(column);
+    padding:$cell-padding;
+    @include grid-contain-content(){
+      width:$_grid-contain-column-percentage;
+    }
+    @include tablet-content(){
+      width:$_tablet-column-percentage;
+    }
+    @include tablet-small-content(){
+      width:$_tablet-small-column-percentage;
+    }
+    @include phone-content(){
+      width:100%;
+    }
+
+  }
+
+}
+
+@mixin _ui-flex-form($header-background:null,$header-label:null){
+  list-style: none;
+  @include flexbox($justification:space-between);
+  width:100%;
+  @include flex-wrap(wrap);
+  &>li{
+    width:45%;
+    &.disabled{
+      &>*{
+        @extend %ui-disabled-component;
+      }
+      span:not(.ui-notification),input,label{
+        background:$white !important;
+      }
+    }
+    &.stretch{
+      width:100%;
+    }
+    @include span-icon(){
+      color:$inverse-color;
+      &.large{
+        font-size:8em;
+      }
+      margin-bottom:16px;
+    }
+    &.header{
+      margin:2em 0 2em 0;
+      width:100%;
+      height:3em;
+      background:$header-background;
+      border:1px solid $color-ddd;
+      text-align: center;
+      label{
+        font-size:24px;
+        color:$header-label;
+        padding-top:.3em;
+      }
+      &.inverse{
+        background:$inverse-color;
+        border:1px solid darken($component-inverse-background,1%);
+        label{
+          color:$white;
+        }
+      }
+      &.primary{
+        background:$primary-color;
+        border:1px solid darken($primary-color,1%);
+        label{
+          color:$white;
+        }
+      }
+      &.secondary{
+        background:$secondary-color;
+        border:1px solid darken($secondary-color,1%);
+        label{
+          color:$white;
+        }
+      }
+
+    }
+
+  }
+}
+
+@mixin _ui-columns(
+$count:null,
+$gap:null,
+$width:null,
+$contain-count:null,
+$contain-gap:null,
+$contain-width:null,
+$touch-count:null,
+$touch-gap:null,
+$touch-width:null,
+$touch-item-margin:null,
+$touch-font-size:null,
+$font-size:null){
+
+  display:block;
+  list-style: none;
+  font-size:$font-size;
+  -webkit-column-count: $count;
+  -moz-column-count:$count;
+  column-count: $count;
+  -webkit-column-width:$width;
+  -moz-column-width:$width;
+  column-width:$width;
+  -webkit-column-gap:$gap;
+  -moz-column-gap:$gap;
+  column-gap:$gap;
+
+  &>li,&>column-item{
+    display:list-item;
+    a{
+      font-size:$font-size;
+    }
+  }
+
+  @include grid-contain-content() {
+    -webkit-column-count: $contain-count;
+    -moz-column-count:$contain-count;
+    column-count: $contain-count;
+    -webkit-column-width:$contain-width;
+    -moz-column-width:$contain-width;
+    column-width:$contain-width;
+    -webkit-column-gap:$contain-gap;
+    -moz-column-gap:$contain-gap;
+    column-gap:$contain-gap;
+  }
+
+  @include touch-content(){
+    -webkit-column-count: $touch-count;
+    -moz-column-count:$touch-count;
+    column-count: $touch-count;
+    -webkit-column-width:$touch-width;
+    -moz-column-width:$touch-width;
+    column-width:$touch-width;
+    -webkit-column-gap:$touch-gap;
+    -moz-column-gap:$touch-gap;
+    column-gap:$touch-gap;
+  }
+
+  @include phone-content(){
+    -webkit-column-count:1;
+    -moz-column-count:1;
+    column-count: 1;
+    -webkit-column-width:100%;
+    -moz-column-width:100%;
+    column-width:100%;
+    -webkit-column-gap:0;
+    -moz-column-gap:0;
+    column-gap:0;
+  }
+
+  @include touch-content(){
+
+    &>li,&>column-item{
+      margin:$touch-item-margin;
+      a{
+        font-size:$touch-font-size;
+      }
+    }
+  }
+
+}
+
+@mixin _ui-icons($component:null,
+$justification:null,
+$alignment:null,
+$type:null,
+$include-animation:null,
+$animation:null,
+$item-margin:null,
+$item-padding:null,
+$font-size:null,
+$mark-font-size:null,
+$mark-font-weight:null,
+$mark-font-family:null,
+$mark-margin:null){
+
+  @if $type == horizontal{
+    height:100%;
+    @include flexbox($justification:$justification,$alignment:$alignment);
+    &>li,&>screen-icon{
+      margin:$item-margin;
+      padding:$item-padding;
+      @include span-icon(){
+        cursor:pointer;
+        @if $include-animation == true{
+          @include transition($animation);
+        }
+        position:relative;
+        @include flexbox($justification:center,$alignment:center);
+        &>mark{
+          @extend %#{$component}-icon !optional;
+          font-family:$mark-font-family;
+          font-size:$mark-font-size !important;
+          font-weight:$mark-font-weight !important;
+          margin:$mark-margin;
+          position:absolute;
+          top:0;
+          left:0;
+          @include flexbox($justification:center,$alignment:center);
+          background:none;
+          height:100%;
+          width:100%;
+        }
+        @extend %#{$component}-font !optional;
+        @extend %#{$component}-text-shadow !optional;
+        font-size:$font-size;
+        &:hover{
+          @extend %#{$component}-font-hover !optional;
+        }
+      }
+    }
+  }@else{
+    width:100%;
+    @include flexbox-column($justification:$justification,$alignment:$alignment);
+    &>li,&>screen-icon{
+      margin:$item-margin;
+      padding:$item-padding;
+
+      @include span-icon(){
+        cursor:pointer;
+        @if $include-animation == true{
+          @include transition($animation);
+        }
+        position:relative;
+        @include flexbox($justification:center,$alignment:center);
+        &>mark{
+          @extend %#{$component}-icon !optional;
+          font-family:$mark-font-family;
+          font-size:$mark-font-size !important;
+          font-weight:$mark-font-weight !important;
+          margin:$mark-margin;
+          position:absolute;
+          top:0;
+          left:0;
+          @include flexbox($justification:center,$alignment:center);
+          background:none;
+          height:100%;
+          width:100%;
+        }
+        @extend %#{$component}-font !optional;
+        @extend %#{$component}-text-shadow !optional;
+        &:hover{
+          @extend %#{$component}-font-hover !optional;
+        }
+      }
+    }
+  }
+
+
+}
+
+/* Public -------------------------------------------------------------------------------------------------------------*/
+
+.ui-flex-container,ui-flex-container,flex-box,.flex-box{
+  @include display-flex();
+  @include justify-content(center);
+  @include align-items(center);
+  &.stretch{
+    width:100%;
+  }
+  &.wrap{
+    width: 100%;
+    @include flex-wrap(wrap);
+  }
+  &.left, &.start,&.flex-start{
+    @include justify-content(flex-start);
+  }
+  &.right, &.end,&.flex-end{
+    @include justify-content(flex-end);
+  }
+  &.space-between{
+    @include justify-content(space-between);
+  }
+  &.top{
+    @include align-items(flex-start);
+  }
+  &.bottom{
+    @include align-items(flex-end);
+  }
+  &.space-around{
+    @include justify-content(space-around);
+  }
+  &.column{
+    @include flex-direction(column);
+    @include align-items(center);
+    &.top{
+      @include justify-content(flex-start);
+    }
+    &.bottom{
+      @include justify-content(flex-end);
+    }
+    &.center{
+      @include justify-content(center);
+    }
+    &.left,&.start,&.flex-start{
+      @include align-items(flex-start);
+    }
+    &.right, &.end,&.flex-end{
+      @include align-items(flex-end);
+    }
+    &.space-around{
+      @include align-items(space-around);
+    }
+    &.space-between{
+      @include align-items(space-between);
+    }
+  }
+  &>.right, &>.end,&>.flex-end{
+    margin-left:auto;
+  }
+  &.touch-column{
+    @include touch-content(){
+      @include flex-direction(column);
+      @include align-items(center);
+    }
+  }
+  &>.touch-right{
+    @include touch-content(){
+      margin-left:auto;
+    }
+  }
+  &>.tablet-right{
+    @include tablet-content(){
+      margin-left:auto;
+    }
+  }
+  &>.touch-left{
+    margin-right:auto;
+  }
+  &>.tablet-left{
+    margin-right:auto;
+  }
+  &.absolute{
+    position:absolute;
+    height:100%;
+    width:100%;
+    z-index:999;
+    top:0;
+  }
+  &.relative{
+    position:relative;
+  }
+}
+
+
+@mixin ui-flex-form($class:null,
+$header-background:#f7f7f7,
+$header-label:#999
+
+){
+
+  flex-form,.flex-form {
+    @if $class != null{
+      &.#{$class} {
+        @include _ui-flex-form($header-background,$header-label);
+        @content;
+      }
+
+    } @else {
+      @include _ui-flex-form($header-background,$header-label);
+      @content;
+    }
+  }
+}
+
+
+@mixin ui-flex-list($class:null,
+$first-child-max-width:15em,
+$alt-background:#fafafa,
+$justification:space-between,
+$alignment:center,
+$padding:.5em 0 .5em 0
+){
+
+  .ui-flex-list,ui-flex-list,flex-list,.flex-list {
+    @if $class != null{
+      &.#{$class} {
+        @include _ui-flex-list($first-child-max-width,$alt-background,$justification,$alignment,$padding);
+        @content;
+      }
+
+    } @else {
+      @include _ui-flex-list($first-child-max-width,$alt-background,$justification,$alignment,$padding);
+      @content;
+    }
+  }
+}
+
+@mixin ui-flex-grid($class:null,
+$columns:4,
+$grid-contain-columns:4,
+$tablet-columns:3,
+$tablet-small-columns:2,
+$justification:flex-start,
+$alignment:flex-start,
+$cell-justification:flex-start,
+$cell-alignment:flex-start,
+$cell-padding:0 1em 2em 0
+
+){
+
+  .flex-grid,flex-grid {
+    @if $class != null{
+      &.#{$class} {
+        @include _ui-flex-grid($columns,$grid-contain-columns,$tablet-columns,$tablet-small-columns,
+                $justification,$alignment,$cell-justification,$cell-alignment,$cell-padding);
+        @content;
+      }
+
+    } @else {
+      @include _ui-flex-grid($columns,$grid-contain-columns,$tablet-columns,$tablet-small-columns,
+              $justification,$alignment,$cell-justification,$cell-alignment,$cell-padding);
+      @content;
+    }
+  }
+}
+
+@mixin ui-columns($class:null,
+$count:3,
+$gap:2em,
+$grid-contain-count:2,
+$grid-contain-gap:2em,
+$touch-count:2,
+$touch-gap:2em,
+$touch-item-margin:0 0 .5em 0,
+$touch-font-size:1em,
+$font-size:1em
+){
+  $column-percentage: columns-to-percentage($count);
+  $contain-column-percentage: columns-to-percentage($grid-contain-count);
+  $touch-column-percentage: columns-to-percentage($touch-count);
+
+
+  .ui-columns,ui-columns {
+
+    @if $class != null{
+      &.#{$class} {
+        @include _ui-columns($count,
+        $gap,
+        $column-percentage,
+        $grid-contain-count,
+        $grid-contain-gap,
+        $contain-column-percentage,
+        $touch-count,
+        $touch-gap,
+        $touch-column-percentage,
+        $touch-item-margin,
+        $touch-font-size,
+        $font-size);
+        @content;
+      }
+
+    } @else {
+      @include _ui-columns($count,
+              $gap,
+              $column-percentage,
+              $grid-contain-count,
+              $grid-contain-gap,
+              $contain-column-percentage,
+              $touch-count,
+              $touch-gap,
+              $touch-column-percentage,
+              $touch-item-margin,
+              $touch-font-size,
+              $font-size);
+      @content;
+    }
+  }
+}
+
+@mixin ui-icons($class:null,$component:null,
+$justification:flex-start,
+$alignment:center,
+$type:horizontal,
+$include-animation:true,
+$animation:color 500ms,
+$item-margin:0 2em 0 0,
+$item-padding:0,
+$font-size:2em,
+$mark-font-size:11px,
+$mark-font-weight:700,
+$mark-font-family:'Helvetica Neue',
+$mark-margin:0
+){
+
+  .ui-icons,ui-icons{
+    @if $class != null{
+      &.#{$class} {
+        @include _ui-icons($component,
+        $justification,
+        $alignment,
+        $type,
+        $include-animation,
+        $animation,
+        $item-margin,
+        $item-padding,
+        $font-size,
+        $mark-font-size,
+        $mark-font-weight,
+        $mark-font-family,
+        $mark-margin
+        );
+        @content;
+      }
+    }@else{
+      @include _ui-icons($component,
+              $justification,
+              $alignment,
+              $type,
+              $include-animation,
+              $animation,
+              $item-margin,
+              $item-padding,
+              $font-size,
+              $mark-font-size,
+              $mark-font-weight,
+              $mark-font-family,
+              $mark-margin
+      );
+        @content;
+    }
+  }
+}
+
+@mixin ui-flex-label(){
+  .flex-label,flex-label{
+    list-style: none;
+    display:block;
+    &>li{
+      @include flexbox($justification:space-between,$alignment:flex-start);
+    }
+  }
+}
+
+@mixin ui-sticky-footer(){
+  /* sticky bottom footer */
+  .ui-sticky-footer {
+    @include display-flex();
+    min-height: 100vh;
+    height:100%;
+    @include flex-direction(column);
+    & > *:not([data-role=footer]) {
+      //@include flex(1);
+      @include flex(1 0 auto);//ie workaround
+    }
+    &.ns{
+      height:900px;//not supported workaround
+    }
+  }
+}
+
+
+

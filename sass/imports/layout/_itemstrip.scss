@@ -1,0 +1,145 @@
+﻿@include component($component:css-item-strip,
+$background:white,
+$border:1px solid #ddd,
+$border-hover:1px solid #999,
+$border-active:1px solid $secondary-color,
+$font-color:#bbb,
+$icon-color:#c8c8c8
+);
+
+@mixin _ui-item-strip(
+$component:null,
+$close-component:null,
+$top:null,
+$padding:null,
+$header-font-size:null,
+$header-margin:null,
+$item-margin:null,
+$item-width:null,
+$item-height:null,
+$item-remove-icon:null,
+$item-remove-font-size:null,
+$item-remove-font-weight:null
+){
+    position:absolute;
+    top:$top;
+    @include touch-content(){
+        top:90px;
+    }
+    right:0;
+    &.left{
+        left:0 !important;
+    }
+    &.hide{
+        display:none;
+        @include touch-content(){
+            display:none;
+        }
+    }
+   
+    z-index:2;
+    @extend %#{$component}-background !optional;
+    @extend %#{$component}-border !optional;
+    text-align:center;
+    padding:$padding;
+    [data-role=close]{
+        font-size:1em;
+        @extend %#{$close-component}-font !optional;
+        position:absolute;
+        top:8px;
+        right:8px;
+        &:hover{
+            @extend %#{$close-component}-font-hover !optional;
+            cursor:pointer;
+        }
+    }
+    h3{
+        display:block;
+        margin:$header-margin;
+        @extend %#{$component}-font !optional;
+        font-size:$header-font-size;
+    }
+    item-container,ui-template,item-container >ui-template{
+        @include flexbox-column($justification:flex-start,$alignment:center);
+        strip-item{
+            margin:$item-margin;
+            div{
+                overflow:hidden;
+                width:$item-width;
+                height:$item-height;
+                @extend %#{$component}-border !optional;
+                img{
+                    max-width:$item-width;
+                    height:auto;
+                }
+                &:hover{
+                    cursor:pointer;
+                    @extend %#{$component}-border-hover !optional;
+                }
+            }
+            label{
+                font-size:$item-remove-font-size;
+                @extend %#{$component}-icon !optional;
+                font-weight:$item-remove-font-weight;
+                position:relative;
+                &:hover {
+                    cursor: pointer;
+                }
+                &:before {
+                    font-family:$global-icon-font-family;
+                    content: $item-remove-icon;
+                    position: absolute;
+                    @extend %#{$component}-icon !optional;
+                    font-size: 12px;
+                    top: 0px;
+                    left: -10px;
+                }
+            }
+            &.active{
+                 div{
+                     @extend %#{$component}-border-active !optional;
+                 }
+            }
+        }
+    }
+}
+
+@mixin ui-item-strip($primary-tag:null,$tags:null,$template-tag:null,$component-class:null,$class:null,
+$component:css-item-strip,
+$close-component:css-close,
+$top:0,
+$padding:2em,
+$header-font-size:1.4em,
+$header-margin:0 0 1em 0,
+$item-margin:0 0 1em 0,
+$item-width:75px,
+$item-height:100px,
+$item-remove-icon:'\e0db',
+$item-remove-font-size:12px,
+$item-remove-font-weight:bold
+){
+  $_component-class:'.ui-item-strip';
+  $_primary-tag:ui-item-strip;
+  @if $component-custom-tags==true and $component-class ==null{
+    $_component-class:null;
+  }
+  @if $primary-tag !=null{
+    $_primary-tag:$primary-tag;
+  }
+  @include element-tag($primary-tag:$_primary-tag,$tags:$tags,$template-tag:$template-tag,$component-class:$_component-class,$class:$class){
+    @include _ui-item-strip($component,$close-component,
+    $top,
+    $padding,
+    $header-font-size,
+    $header-margin,
+    $item-margin,
+    $item-width,
+    $item-height,
+    $item-remove-icon,
+    $item-remove-font-size,
+    $item-remove-font-weight
+    );
+
+    @content;
+  }
+}

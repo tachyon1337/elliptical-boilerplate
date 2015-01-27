@@ -1,0 +1,21 @@
+﻿<script src="shipping-addresses.js"></script>
+<shipping-addresses>
+    <template>
+        <ui-template id="fragment-shipping-addresses">
+            <ui-flex-list class="addresses">
+                {#addresses}
+                <li>
+                    <div>{firstName} {lastName}</div>
+                    <div>{street}</div>
+                    <div>{city}, {state} {zip}</div>
+                    <a href="/Account/ShippingAddress/Edit/{id}" class="ui-button tiny inverse">Edit</a>
+                    <a href="/Account/ShippingAddress/Delete/{id}" class="ui-button tiny">Delete</a>
+                </li>
+                {/addresses}
+                {^addresses}
+                <li>No addresses currently on file.</li>
+                {/addresses}
+            </ui-flex-list>
+        </ui-template>
+    </template>
+</shipping-addresses>

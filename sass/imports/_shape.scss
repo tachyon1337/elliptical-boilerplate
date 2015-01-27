@@ -1,0 +1,86 @@
+﻿
+
+@mixin _css-shape(
+$height,
+$width,
+$min-width,
+$min-height,
+$function,
+$vertices,
+$url,
+$image-threshold,
+$float,
+$margin,
+$padding,
+$border-radius
+){
+    display:block;
+    
+    img{
+       margin:$margin;
+       @if $height !=null{
+          height:$height;
+       }
+       @if $width !=null{
+          width:$width;
+       }
+       @if $min-height !=null{
+           min-height:$min-height;
+       }
+       @if $min-width !=null{
+           min-width:$min-width;
+       }
+       @if $padding != null{
+          padding:$padding;
+       }
+       @if $border-radius !=null{
+          border-radius:$border-radius;
+       }
+
+       float:$float;
+     
+       @if $url !=null{
+          shape-outside: url(#{$url});
+          @if $image-threshold != null{
+              shape-image-threshold: $image-threshold;
+          }
+        
+       }@else if $function !=null{
+           @if $vertices==null{
+              -webkit-shape-outside:#{$function}();
+              shape-outside:#{$function}();
+           }@else{
+               -webkit-shape-outside:#{$function}(#{vertices});
+                shape-outside:#{$function}(#{vertices});
+           }
+         
+       }
+
+    }
+}
+
+
+@mixin css-shape($primary-tag:null,$tags:null,$template-tag:null,$component-class:null,$class:null,
+$height:null,
+$width:null,
+$min-width:null,
+$min-height:null,
+$function:null,
+$vertices:null,
+$url:null,
+$image-threshold:null,
+$float:left,
+$margin:0 .5em 0 0,
+$padding:null,
+$border-radius:null
+){
+   
+    $_primary-tag:css-shape;
+    @if $primary-tag !=null{
+      $_primary-tag:$primary-tag;
+    }
+    @include element-tag($primary-tag:$_primary-tag,$tags:$tags,$template-tag:$template-tag,$component-class:$component-class,$class:$class){
+        @include _css-shape($height,$width,$min-width,$min-height,$function,$vertices,$url,$image-threshold,$float,$margin,$padding,$border-radius);
+        @content;
+    }
+}

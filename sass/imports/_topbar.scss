@@ -1,0 +1,284 @@
+/* ui-topbar */
+
+/* private -----------------------------------------------------------------------------------------------------------*/
+
+@mixin _ui-topbar($component: null,
+$position: null,
+$padding: null,
+$height: null,
+$z-index: null,
+$brand-font-size: null,
+$line-height: null,
+$justification:null,
+$alignment:null,
+$brand-justification:null,
+$brand-alignment:null,
+$brand-min-width:null,
+$brand-padding:null,
+$right-padding:null,
+$menu-justification:null) {
+
+  $_ui-topbar-contained-to-grid: $grid-width - $grid-column-gutter;
+
+
+
+  position: $position;
+  width: 100%;
+  padding: $padding;
+  @include invoke-component-default-state($component);
+  border-right: 0;
+  border-left: 0;
+  height: $height;
+  @include flexbox($justification: $justification, $alignment: $alignment);
+
+  @if $position == absolute or $position == fixed {
+    top: 0;
+    left: 0;
+    z-index: $z-index;
+
+  }
+  @if $position==relative{
+    max-height:$height;
+  }
+  ui-brand {
+    position:absolute;
+    left:0;
+    top:0;
+    cursor:pointer;
+    padding: $brand-padding;
+    height:100%;
+    min-width:$brand-min-width;
+    a{
+      font-size:1em;
+      @extend %#{$component}-font !optional;
+      @include flexbox($justification: $brand-justification, $alignment: $brand-alignment);
+      &:hover{
+        @extend %#{$component}-font-hover !optional;
+      }
+
+    }
+    @include flexbox($justification: $brand-justification, $alignment: $brand-alignment);
+    @extend %#{$component}-font !optional;
+    font-size:$brand-font-size;
+
+  }
+
+  &>* {
+    list-style: none;
+    &.right{
+      position:absolute;
+      right:0;
+      top:0;
+      height:100%;
+      padding:$right-padding;
+    }
+    &.left{
+      position:absolute;
+      left:0;
+      top:0;
+      height:100%;
+    }
+
+  }
+  & > section {
+    height: $height;
+    width: $_ui-topbar-contained-to-grid;
+    position:relative;
+    background:none;
+    @include flexbox($justification:flex-start, $alignment: $alignment);
+    &>*{
+      &.right,&.flex-end {
+        margin-left:auto;
+        height:100%;
+        @include flexbox($justification: $menu-justification, $alignment: $alignment);
+      }
+      &.left,&.flex-start{
+        margin-right:auto;
+        height:100%;
+        @include flexbox($justification: $menu-justification, $alignment:$alignment);
+      }
+    }
+    &.center {
+      @include flexbox($justification:center, $alignment: $alignment);
+    }
+    &.space-between{
+      @include flexbox($justification:space-between, $alignment: $alignment);
+    }
+    &.space-around{
+      @include flexbox($justification:space-around, $alignment: $alignment);
+    }
+    &.right{
+      @include flexbox($justification:flex-end, $alignment: $alignment);
+    }
+
+  }
+  &.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: $z-index;
+
+  }
+  //when the screen width matches grid width, we must further subtract gutter width from the max-width and use gutter width as the margin
+  @include grid-contain-content() {
+    & > section {
+      left: 0;
+      margin: 0;
+      max-width: $grid-width - $grid-column-gutter - $grid-column-gutter;
+    }
+  }
+
+}
+
+/* public ------------------------------------------------------------------------------------------------------------*/
+
+@mixin ui-topbar($class: null, $component: css-bar, $touch-component: css-touch-black,
+$position: fixed,
+$padding: 0,
+$height: 50px,
+$z-index: $global-z-index + 999,
+$brand-font-size: 1.5em,
+$line-height: .5,
+$justification:center,
+$alignment:center,
+$brand-justification:flex-start,
+$brand-alignment:center,
+$brand-min-width:6em,
+$brand-padding:0 0 0 1em,
+$right-padding:0 1em 0 0,
+$menu-justification:center,
+$touch-position: fixed,
+$touch-height: 60px,
+$touch-z-index: $global-z-index + 999,
+$touch-brand-font-size:1.75em,
+$touch-icon-font-size:22px,
+$touch-icon-margin:.8em
+) {
+
+  $topbar-selector:'.ui-topbar';
+  @if $component-custom-tags==true{
+    $topbar-selector:ui-topbar;
+  }
+
+  ui-topbar {
+    @if $class != null {
+      &.#{$class} {
+        @include desktop-content() {
+          @include _ui-topbar($component,
+                  $position,
+                  $padding,
+                  $height,
+                  $z-index,
+                  $brand-font-size,
+                  $line-height,
+                  $justification,
+                  $alignment,
+                  $brand-justification,
+                  $brand-alignment,
+                  $brand-min-width,
+                  $brand-padding,
+                  $right-padding,
+                  $menu-justification);
+        }
+        @content
+      }
+    } @else {
+      @include desktop-content() {
+        @include _ui-topbar($component,
+                $position,
+                $padding,
+                $height,
+                $z-index,
+                $brand-font-size,
+                $line-height,
+                $justification,
+                $alignment,
+                $brand-justification,
+                $brand-alignment,
+                $brand-min-width,
+                $brand-padding,
+                $right-padding,
+                $menu-justification);
+      }
+      @content;
+    }
+  }
+
+  /* if fixed position, margin of next element =topbar height + 1em */
+  @if $position != relative {
+    [data-role=navigation] + *{
+      padding-top:$touch-height;
+    }
+    @if $class != null {
+      ui-topbar.#{$class} + * {
+        margin-top: $height;
+      }
+    } @else {
+      ui-topbar + * {
+        margin-top: $height;
+      }
+    }
+  }
+
+  @include desktop-content(){
+    #{$topbar-selector}{
+      touch-ui-brand,.touch-right,touch-icons{
+        display:none;
+      }
+    }
+  }
+
+  @media #{$breakpoint-touch}{
+    #{$topbar-selector}{
+      @if $class != null {
+        &.#{$class} {
+          @include _touch-ui-topbar($touch-component,
+                  $touch-position,
+                  $touch-height,
+                  $touch-z-index,
+                  $touch-brand-font-size,
+                  $touch-icon-font-size,
+                  $touch-icon-margin
+          );
+        }
+      } @else {
+        @include _touch-ui-topbar($touch-component,
+                $touch-position,
+                $touch-height,
+                $touch-z-index,
+                $touch-brand-font-size,
+                $touch-icon-font-size,
+                $touch-icon-margin
+        );
+      }
+    }
+    /* for touch, if fixed position, padding of next element =topbar height */
+    @if $touch-position != relative {
+      @if $class != null {
+        ui-topbar.#{$class} + *{
+          padding-top: $touch-height;
+        }
+
+      } @else {
+        ui-topbar + * {
+          padding-top: $touch-height;
+        }
+      }
+    }
+  }
+}
+
+@mixin ui-topbar-brand() {
+  ui-brand {
+    @content;
+  }
+}
+
+@mixin touch-ui-topbar-brand() {
+  @include touch-content() {
+    ui-brand {
+      @content;
+    }
+  }
+
+}

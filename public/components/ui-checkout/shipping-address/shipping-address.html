@@ -1,0 +1,46 @@
+<script src="shipping-address.js"></script>
+<link rel="import" property="elements" href="../state-select/state-select.html">
+<link rel="import" property="elements" href="../icon-elements/checkout-section-icon.html">
+<shipping-address>
+    <template>
+        <button class="ui-button secondary next" data-role="screen-button">continue</button>
+        <checkout-section-icon header="Shipping Address" step="2"></checkout-section-icon>
+        <form id="fragment-shipping-address" class="ui-flex-container hidden top space-between full-width form-container">
+            <div class="shipping-form">
+                {#shippingAddress}
+                    <label>First Name</label>
+                    <input type="text" name="firstName" data-bind="value:shippingAddress.firstName" placeholder="First Name" value="{firstName}" required>
+                    <label>Last Name</label>
+                    <input type="text" name="lastName" data-bind="value:shippingAddress.lastName" placeholder="Last Name" value="{lastName}" required>
+                    <label>Email</label>
+                    <input type="text" name="email" data-bind="value:shippingAddress.email" placeholder="Email" value="{email}" required>
+                    <label>Phone</label>
+                    <input type="text" name="phone" data-bind="value:shippingAddress.phone" placeholder="Phone" value="{phone}" required>
+                    <label>Street</label>
+                    <input type="text" name="street" data-bind="value:shippingAddress.street" placeholder="Street Address" value="{street}" required>
+                    <label>City</label>
+                    <input type="text" name="city" data-bind="value:shippingAddress.city" placeholder="City" value="{city}" required>
+                    <label>State</label>
+                    <state-select field="shippingAddress.state" html5-imported="true"></state-select>
+                    <input type="hidden" name="state" data-bind="value:shippingAddress.state">
+                    <label>Zip Code</label>
+                    <input type="text" name="zip" data-bind="value:shippingAddress.zip" placeholder="Zip Code" value="{zip}" required>
+                    <button class="ui-button secondary next" data-role="form-button">continue</button>
+                {/shippingAddress}
+            </div>
+            <aside>
+                <h6 class="select-shipping-addresses-header">Select From Shipping Addresses on File</h6>
+                <ui-flex-container class="column top left shipping-addresses">
+                    {#shippingAddresses}
+                        <ui-model model-id="{id}">
+                            <span class="ui-button tiny checkout shipping-select">Select</span>
+                            <div>{firstName} {lastName}</div>
+                            <div>{street}</div>
+                            <div>{city}, {state} {zip}</div>
+                        </ui-model>
+                    {/shippingAddresses}
+                </ui-flex-container>
+            </aside>
+        </form>
+    </template>
+</shipping-address>

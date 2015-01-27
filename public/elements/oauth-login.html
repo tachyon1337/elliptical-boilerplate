@@ -1,0 +1,16 @@
+<script>
+    Elliptical(function(){
+        $.element.registerElement('oauth-login')
+    });
+</script>
+<oauth-login>
+    <template>
+        <h3>Social Network Sign In</h3>
+        <p>Use your favorite  social network account to sign in.</p>
+        <flex-box class="column top">
+            <button type="submit" class="ui-button social facebook" id="facebook" name="provider" value="facebook" title="Log in using your Facebook account">Login with Facebook</button>
+            <button type="submit" class="ui-button social twitter" id="twitter" name="provider" value="twitter" title="Log in using your Twitter account">Login with Twitter</button>
+            <button type="submit" class="ui-button social google" id="google" name="provider" value="google" title="Log in using your Google account">Login with Google</button>
+        </flex-box>
+    </template>
+</oauth-login>

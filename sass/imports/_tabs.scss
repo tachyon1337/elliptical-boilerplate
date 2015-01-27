@@ -1,0 +1,308 @@
+/* ui-tabs */
+
+/* private -----------------------------------------------------------------------------------------------------------*/
+@include touch-component($component:touch-css-tabs,
+$background:#ddd,
+$background-active:$white,
+$border:1px solid #ddd,
+$border-active:1px solid #ddd,
+$box-shadow:none,
+$box-shadow-active:none,
+$font-color:$global-font-color,
+$font-color-active:$global-font-color
+);
+
+@mixin _ui-tabs($component: null, $active-tab: null,
+$tab-padding: null,
+$tab-margin: null,
+$tab-border-radius: null,
+$tab-min-width: null,
+$content-border: null,
+$content-padding: null,
+$content-min-height: null,
+$flex-amount: null,
+$stacked-tab-padding: null,
+$stacked-tab-margin: null,
+$stacked-tab-border-radius: null,
+$stacked-content-min-height: null,
+$stacked-content-padding: null,
+$font-size:null) {
+
+  list-style: none;
+  @include display-flex();
+  @include flex-direction(column);
+  margin: 0;
+  .tabs,tabbed-items {
+    list-style: none;
+    @include display-flex();
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
+    margin: 0;
+    & > li,&>tab-item {
+      text-align: center;
+      min-width: $tab-min-width;
+      position: relative;
+      padding: $tab-padding;
+      @include phone-content() {
+        min-width: 30px;
+      }
+      @extend %#{$component}-background !optional;
+      @extend %#{$component}-border !optional;
+      @extend %#{$component}-box-shadow !optional;
+      border-top-left-radius: $tab-border-radius;
+      border-top-right-radius: $tab-border-radius;
+      margin: $tab-margin;
+      border-bottom-width: 0 !important;
+      &>a{
+        font-size:$font-size;
+      }
+      &:last-child {
+        margin: 0;
+        margin-top: margin-top($tab-margin);
+      }
+      cursor: pointer;
+      & > span, & > a {
+        @extend %#{$component}-font !optional;
+        &:hover{
+          @extend %#{$component}-font-hover !optional;
+        }
+      }
+      &.active {
+        @if $active-tab == null{
+          @extend %#{$component}-background-active !optional;
+          @extend %#{$component}-border-active !optional;
+          @extend %#{$component}-box-shadow-active !optional;
+        } @else {
+          @extend %#{$active-tab}-background !optional;
+          @extend %#{$active-tab}-border !optional;
+          @extend %#{$active-tab}-box-shadow !optional;
+        }
+        top: 1px;
+        position: relative;
+        border-bottom-width: 0 !important;
+
+
+        & > span, & > a, & > div {
+          display: block;
+          top: -1px;
+          position: relative;
+
+          @if $active-tab == null{
+            @extend %#{$component}-font-active !optional;
+          } @else {
+            @extend %#{$active-tab}-font-active !optional;
+          }
+          &:focus {
+            @include tab-focus();
+          }
+        }
+      }
+      &.disabled, &[disabled] {
+        @extend %#{$component}-disabled !optional;
+        & > span, & > a, & > div {
+          @extend %#{$component}-disabled !optional;
+        }
+        &:focus {
+          @include tab-focus();
+        }
+      }
+    }
+
+    &.flex {
+      & > li,&>tab-item {
+        @include flex($flex-amount);
+        padding-top: margin-top($tab-padding);
+        padding-bottom: margin-bottom($tab-padding);
+        padding-left: 1px;
+        padding-right: 1px;
+      }
+    }
+    &.disabled, &[disabled] {
+      & > li,&>tab-item {
+        @extend %#{$component}-disabled !optional;
+        & > span, & > a {
+          @extend %#{$component}-disabled !optional;
+        }
+      }
+    }
+  }
+  .content,tabbed-content {
+    margin: 0;
+    list-style: none;
+    @include display-flex();
+    @include flex-direction(column);
+    min-height: $content-min-height;
+
+    &.border {
+      border: $content-border;
+      @include phone-content() {
+        border: 0 !important;
+      }
+    }
+    &.border-top {
+      border-top: $content-border;
+    }
+    & > li,&>tab-content {
+      padding: $content-padding;
+      display: none;
+      &.active {
+        display: inherit;
+      }
+    }
+
+    .loading {
+      margin: auto;
+    }
+  }
+  &.stacked {
+
+    @include flex-direction(row);
+    min-height: $stacked-content-min-height;
+    & > li,&>tab-item {
+      &:nth-child(2) {
+        @include flex(1 1 auto);
+        @include display-flex();
+        @include align-items(stretch);
+      }
+    }
+    .tabs,tabbed-items {
+      @include flex-direction(column);
+      @include flex-wrap(nowrap);
+
+      & > li,&>tab-item {
+        border-radius: 0;
+        border-top-left-radius: $stacked-tab-border-radius;
+        border-bottom-left-radius: $stacked-tab-border-radius;
+        margin: $stacked-tab-margin;
+        padding: $stacked-tab-padding;
+        border-bottom-width: 1px !important;
+        border-right: 0 !important;
+
+        &:last-child {
+          margin: 0;
+        }
+        &.active {
+          border-bottom-width: 1px !important;
+          @if $active-tab == null{
+            @extend %#{$component}-border-active !optional;
+          } @else {
+            @extend %#{$active-tab}-border !optional;
+          }
+          border-right: 0 !important;
+          a{
+            display:inline;
+          }
+          top: 0;
+          right: -1px;
+          & > span, & > a, & > div {
+            top: 0;
+            right: 1px;
+
+          }
+        }
+
+      }
+    }
+    .content,tabbed-content {
+      @include flex(1 1 auto);
+      padding: $stacked-content-padding;
+      &.border-left {
+        border-left: $content-border;
+
+      }
+    }
+  }
+
+}
+
+/* public -----------------------------------------------------------------------------------------------------------*/
+
+@mixin ui-tabs($class: null, $component: css-tabs, $active-tab: null,$touch-component:touch-css-tabs,
+$tab-padding:.5em 1em .5em 1em,
+$tab-margin:1px 1px 0 0,
+$tab-border-radius:$global-radius,
+$tab-min-width:4.68em,
+$content-border:1px solid #ddd,
+$content-padding:1.5em,
+$content-min-height:6.25em ,
+$flex-amount:1 1 0,
+$stacked-tab-padding:.75em .5em .75em .5em,
+$stacked-tab-margin:0px 0px 1px 0,
+$stacked-tab-border-radius:$global-radius,
+$stacked-content-min-height:6.25em,
+$stacked-content-padding:2em,
+$font-size:1em) {
+
+  .ui-tabs,ui-tabs {
+    @if $class != null{
+      &.#{$class} {
+        @include _ui-tabs($component, $active-tab, $tab-padding, $tab-margin, $tab-border-radius, $tab-min-width, $content-border, $content-padding,
+          $content-min-height, $flex-amount, $stacked-tab-padding, $stacked-tab-margin, $stacked-tab-border-radius,
+          $stacked-content-min-height, $stacked-content-padding,$font-size);
+        @content;
+      }
+    } @else {
+      @include _ui-tabs($component, $active-tab, $tab-padding, $tab-margin, $tab-border-radius, $tab-min-width, $content-border, $content-padding,
+        $content-min-height, $flex-amount, $stacked-tab-padding, $stacked-tab-margin, $stacked-tab-border-radius,
+        $stacked-content-min-height, $stacked-content-padding,$font-size);
+      @content;
+    }
+  }
+
+  @include touch-content(){
+    ui-tabs {
+      @if $class != null{
+        &.#{$class} {
+          @include _ui-tabs($touch-component, $active-tab, $tab-padding, $tab-margin, $tab-border-radius, $tab-min-width, $content-border, $content-padding,
+                  $content-min-height, $flex-amount, $stacked-tab-padding, $stacked-tab-margin, $stacked-tab-border-radius,
+                  $stacked-content-min-height, $stacked-content-padding,$font-size);
+          @content;
+        }
+      } @else {
+        @include _ui-tabs($touch-component, $active-tab, $tab-padding, $tab-margin, $tab-border-radius, $tab-min-width, $content-border, $content-padding,
+                $content-min-height, $flex-amount, $stacked-tab-padding, $stacked-tab-margin, $stacked-tab-border-radius,
+                $stacked-content-min-height, $stacked-content-padding,$font-size);
+        @content;
+      }
+    }
+  }
+
+}
+
+
+@mixin touch-ui-tabs($class: null, $touch-component:touch-css-tabs,$active-tab: null,
+$tab-padding:.5em 1em .5em 1em,
+$tab-margin:1px 1px 0 0,
+$tab-border-radius:$global-radius,
+$tab-min-width:4.68em,
+$content-border:1px solid #ddd,
+$content-padding:1.5em,
+$content-min-height:6.25em ,
+$flex-amount:1 1 0,
+$stacked-tab-padding:.75em .5em .75em .5em,
+$stacked-tab-margin:0px 0px 1px 0,
+$stacked-tab-border-radius:$global-radius,
+$stacked-content-min-height:6.25em,
+$stacked-content-padding:2em,
+$font-size:1em) {
+
+
+  @include touch-content(){
+    ui-tabs {
+      @if $class != null{
+        &.#{$class} {
+          @include _ui-tabs($touch-component, $active-tab, $tab-padding, $tab-margin, $tab-border-radius, $tab-min-width, $content-border, $content-padding,
+                  $content-min-height, $flex-amount, $stacked-tab-padding, $stacked-tab-margin, $stacked-tab-border-radius,
+                  $stacked-content-min-height, $stacked-content-padding,$font-size);
+          @content;
+        }
+      } @else {
+        @include _ui-tabs($touch-component, $active-tab, $tab-padding, $tab-margin, $tab-border-radius, $tab-min-width, $content-border, $content-padding,
+                $content-min-height, $flex-amount, $stacked-tab-padding, $stacked-tab-margin, $stacked-tab-border-radius,
+                $stacked-content-min-height, $stacked-content-padding,$font-size);
+        @content;
+      }
+    }
+  }
+
+}

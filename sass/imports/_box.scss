@@ -1,0 +1,72 @@
+/* ui-box */
+
+/* private -----------------------------------------------------------------------------------------------------------*/
+
+@mixin _ui-box($component:null,
+$margin:null,
+$padding:null,
+$height:null,
+$width:null,
+$border-radius:null,
+$justification:null,
+$alignment:null
+){
+
+  @include flexbox-column($justification:$justification,$alignment:$alignment);
+  height:$height;
+  padding:$padding;
+  width:$width;
+  margin:$margin;
+  @if $component != null{
+    @extend %#{$component}-background !optional;
+    @extend %#{$component}-font !optional;
+    @extend %#{$component}-border !optional;
+    @extend %#{$component}-box-shadow !optional;
+  }
+
+  @if $border-radius != null{
+    border-radius:$border-radius;
+  }
+
+  .bottom{
+    margin-top:auto;
+  }
+
+  @include phone-content(){
+    max-width:100%;
+    border-radius:0;
+  }
+  div{
+    width:100%;
+    p{
+      width:100%;
+    }
+  }
+}
+
+/* public -----------------------------------------------------------------------------------------------------------*/
+
+@mixin ui-box($class:null,$component:null,
+$margin:0,
+$padding:.5em 1em,
+$height:18.75em,
+$width:18.75em,
+$border-radius:$global-radius,
+$justification:space-between,
+$alignment:center
+
+){
+
+  .ui-box,ui-box{
+    @if $class != null{
+      &.#{$class}{
+        @include _ui-box($component,$margin,$padding,$height,$width,$border-radius, $justification, $alignment);
+        @content;
+      }
+    }@else{
+      @include _ui-box($component,$margin,$padding,$height,$width,$border-radius, $justification, $alignment);
+      @content;
+    }
+  }
+
+}

@@ -1,0 +1,458 @@
+/* Fonts --------------------------------------------------------------------------------------------------------------*/
+@include font-ubuntu();
+@include font-icons();
+@import "imports/icon-sets";
+@include icons-common();
+@include icons-iOS();
+@include icons-tech();
+@include icons-user();
+
+/* Base Classes -------------------------------------------------------------------------------------------*/
+@import "imports/mixins";
+@import "imports/base";
+
+/* Prebuilt SASS Components--------------------------------------------------------------------------------------------*/
+@include component-ui();
+
+/* Core Colors---------------------------------------------------------------------------------------------------------*/
+
+
+
+
+/* Variables & Colors -------------------------------------------------------------------------------------------------*/
+//define variables for colors
+$style-color-green:#7da740;
+$color-footer-background:#e0e2e3;
+$color-white-gray: #d5d5d5;
+$color-eee: #eee;
+$color-1b1b1b: #1b1b1b;
+
+/* SASS Components ----------------------------------------------------------------------------------------------------*/
+@include extend-component($component:ci-bar-menu,$extend-component:css-bar-menu,
+$font-color:#ccc
+);
+
+@include extend-component($component:ci-default-light,$extend-component:default,
+$background:(#fff,#f7f7f7)
+);
+
+@include extend-component($component:ci-default-white,$extend-component:default,
+$background:#fff,
+$box-shadow:none,
+$border:1px solid #d5d5d5
+);
+
+
+/* Base Resets --------------------------------------------------------------------------------------------------------*/
+@include document-reset();
+
+
+
+/* Base Typography ----------------------------------------------------------------------------------------------------*/
+@import "imports/typography";
+@include typography-reset();
+@include typography-header();
+@include typography-header-margins();
+
+
+section.outer{
+  min-height:300px;
+  padding-top: 1em;
+  &.no-padding{
+    padding-top:0;
+  }
+  @include touch-content(){
+    padding-top:70px !important;
+  }
+  &.home{
+    padding-top:2em;
+
+  }
+}
+
+/* Custom Mixins --------------------------------------------------------------------------------------------------------*/
+@import "custom-mixins";
+
+
+/* Custom Typography --------------------------------------------------------------------------------------------------*/
+.logo-main{
+  width: 283px;
+  height: 78px;
+}
+
+.demo-web-components{
+  &>*{
+    margin-left:auto;
+  }
+}
+
+.demo-panel{
+  margin-top:3em;
+}
+
+.style-color-green{
+  color:$style-color-green;
+}
+
+.subscribe{
+  max-width:350px;
+  margin-left:auto;
+}
+
+@include demo-badge();
+
+.get-started{
+  h4.secondary{
+    margin-top:1.5em;
+  }
+}
+
+/* Icons --------------------------------------------------------------------------------------------------------------*/
+
+
+
+/* Forms --------------------------------------------------------------------------------------------------------------*/
+@import "imports/form";
+@import "imports/label";
+
+@include form-base();
+@include form-input($number-component:ci-input-number);
+@include flat-forms();
+@include ui-select($tags:(state-select,country-select),$component:ci-default-white){
+  padding-top:.35em;
+  padding-bottom:.35em;
+  padding-left:.5em;
+  margin-bottom:1em;
+  border-radius:5px;
+};
+
+
+
+@include semantic-input-icons();
+@include ui-semantic-checkboxes();
+@include form-fieldset();
+@include ui-search(){
+
+};
+
+
+
+/* Grid ---------------------------------------------------------------------------------------------------------------*/
+@include grid($margin-bottom:1em){
+  @include touch-content(){
+    grid-row{
+      overflow:hidden;
+    }
+  }
+};
+
+
+/* Web Components------------------------------------------------------------------------------------------------------*/
+
+/* ui-topbar */
+@include ui-topbar($position:relative){
+  .logo{
+    background:url('img/elliptical-light.svg');
+    height:31px;
+    width:114px;
+    background-size: cover;
+  }
+  @include ui-menu($component:ci-bar-menu,$divider:css-menu-divider){
+    @include ui-dropdown($component:css-bar-menu,$border-radius:0){
+      font-size:.9em;
+      border-top:1px solid lighten(#272727,2%) !important;
+    };
+  };
+  ui-menu{
+    &.user{
+      menu-item,a{
+        &:hover{
+          background:none;
+          color:#fff;
+        }
+        &.profile{
+          @include flexbox($alignment:center);
+          visibility:hidden;
+          &.visible{
+            visibility:visible !important;
+          }
+          span{
+            font-size:16px;
+            text-transform:uppercase;
+            //margin-top:.1em;
+          }
+          @include span-icon(){
+            background:#666;
+            color:#999;
+            font-size:32px;
+            //margin-top:0;
+            margin-right:.2em;
+          }
+        }
+      }
+    }
+  }
+};
+
+
+
+@import "imports/loader";
+@include ui-spinner();
+@include ui-loading-wave();
+@include ui-x-spinner();
+@include component-preload();
+
+/* import layout components ------ */
+@import "imports/layout";
+
+/* buttons */
+@include ui-buttons();
+
+
+/* ui-dropdown */
+@include ui-dropdown();
+
+/* ui-social */
+@include ui-social();
+@include ui-semantic-label();
+
+/* drawer menu components */
+@include touch-ui-drawer() {
+  @include touch-ui-menu();
+  @include touch-ui-dropdown();
+};
+
+/* touch menu toggle */
+@include ui-toggle();
+
+
+/* ui-columns */
+@include ui-columns($count:4,$gap:1em,$grid-contain-count:3,$font-size:20px);
+
+
+/* ui-modal */
+@include ui-modal();
+
+/* ui-window */
+@include ui-window();
+
+/* ui-tooltip */
+@include ui-tooltip($position:fixed,$font-size:.7em);
+
+
+/* ui-screentab */
+@import "imports/screentab";
+@include ui-screentab();
+
+/* ui-pagination */
+@include ui-pagination($page-font-size:18px){
+
+};
+
+
+
+/* import elliptical-elements-------------------------------------------- */
+@import "imports/elements";
+
+@include ui-sticky-reveal($height:40px,$alignment:center,$justification:space-between){
+  @include reveal-content();
+};
+
+/* ui-loading */
+@include ui-loading($background:$secondary-color,$inner-border-color:darken($secondary-color,10%));
+@include ui-notification();
+
+/* ui-carousel*/
+@include ui-carousel($height:200px,$item-height:100%,$item-max-width:350px,$indicator-icon-color:$inverse-color){
+  p{
+    font-size:14px;
+    padding:1em 0 0 1em;
+  }
+};
+
+/* ui-badge */
+@include ui-badge($component:secondary){
+  &.large{
+    padding:$ui-button-large-padding;
+    font-size:$ui-button-large-font-size;
+  }
+  &.margin-left{
+    margin-left:3em;
+  }
+};
+
+
+@include ui-badge($component:info,$class:info);
+ui-badge{
+  &.min-width{
+    min-width:100px;
+  }
+}
+
+
+
+/* ui-pop-over*/
+@import "imports/popover";
+@include ui-pop-over();
+
+@include pop-over-link();
+
+
+@include ui-table();
+.ui-table{
+  thead{
+    background:#f9f9f9;
+  }
+}
+
+/* ui-tabs */
+@include ui-tabs(){
+  tabbed-items{
+    tab-item{
+      a{
+        width:100%;
+        height:100%;
+        display:block;
+      }
+    }
+  }
+};
+
+tab-content, tab-content.active{
+  min-height:400px;
+  display:block !important;
+}
+
+@include touch-tabs();
+
+
+/* caret-toggle */
+@import "imports/carettoggle";
+@include caret-toggle();
+
+/* layout */
+@import "imports/layout/account";
+@include ui-account();
+
+/* Framework Helper Convenience & Visibility Classes ------------------------------------------------------------------*/
+@include helpers-convenience();
+@include helpers-visibility();
+
+/* Framework keyframe animation classes--------------------------------------------------------------------------------*/
+//@include animations-bounce();
+@include animations-fade();
+@include animations-slide();
+
+
+/* Custom, Pages & Sections--------------------------------------------------------------------------------------------*/
+section{
+  &.outer{
+    @include desktop-content(){
+      min-height:400px;
+    }
+    grid-row:nth-of-type(1){
+      margin-top:0 !important;
+    }
+    width:100%;
+  }
+}
+
+.margin-left-right {
+  margin: 0 0 0 3em;
+  @include touch-content(){
+    margin: 0 0 0 4em;
+  }
+  @include phone-content(){
+    margin:0;
+  }
+}
+.content-small-margin{
+  margin-top:.5em;
+}
+
+
+grid-columns{
+  &.bordered{
+    border-right:1px solid #ddd;
+    @include touch-content(){
+      border-right:0;
+      border-bottom:1px solid #ddd;
+    }
+  }
+}
+
+
+/* Footer -------------------------------------------------------------------------------------------------------------*/
+@include ui-sticky-footer();
+@include demo-footer();
+
+/* media queries ------------------------------------------------------------------------------------------------------*/
+
+//--------desktop-----------------------------
+@include desktop-content() {
+
+}
+
+//-------touch---------------------------------
+@include touch-content() {
+  .logo-main{
+    width: 226px;
+    height: 62px;
+  }
+  h2.style-color-green{
+    font-size:32px;
+  }
+  .demo-panel{
+    grid-columns{
+      margin-bottom:1em;
+    }
+  }
+
+}
+
+
+//-------tablet--------------------------------
+@include tablet-content() {
+
+
+}
+
+//-------phone---------------------------------
+@include phone-content() {
+
+}
+
+//-------grid contain(screen width=grid width)---------------------------
+@include grid-contain-content() {
+
+}
+
+//-------------custom breakpoints---------------------------------------
+@include media-breakpoint(950px){
+  .demo-badge{
+    background:none;
+    border:0 !important;
+  }
+
+  @include demo-flex();
+}
+
+@include media-breakpoint(600px){
+
+  .phone-border{
+    border-top:1px solid #ccc;
+    @include gutter-collapse-m();
+    padding-top:1em;
+    padding-bottom:1.5em;
+  }
+  .phone-padding{
+    @include gutter-collapse-m();
+    padding-bottom:1.5em;
+  }
+
+  .subscribe{
+    margin-top:1em;
+    margin-left:0;
+  }
+}
+

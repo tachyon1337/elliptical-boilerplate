@@ -1,0 +1,131 @@
+﻿
+
+@mixin _ui-screentab($component:null,
+$height:null,
+$width:null,
+$top:null,
+$z-index:null,
+$border-radius:null,
+$padding:null,
+$font-family:null,
+$font-size:null,
+$font-weight:null,
+$letter-spacing:null,
+$position:null
+){
+  position: $position;
+  top:$top;
+  padding:$padding;
+  @extend %#{$component}-background;
+  @extend %#{$component}-border;
+  @extend %#{$component}-box-shadow;
+  left:0;
+  height:$height;
+  width:$width;
+  border-radius:$border-radius;
+  display:block;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  z-index:$z-index;
+  letter-spacing: $letter-spacing;
+  &.right{
+    right:0 !important;
+    left:auto;
+    border-radius:$global-radius 0 0 $global-radius;
+  }
+  &>span{
+    display:block;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    font-family:$font-family;
+    font-size: $font-size;
+    font-weight:$font-weight;
+    @extend %#{$component}-font;
+  }
+  &.ltr{
+    height:auto;
+    width:auto;
+    padding:.5em 1em;
+    border-radius:$global-radius !important;
+    &>span{
+      display:block;
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      -ms-transform: rotate(00deg);
+      transform: rotate(0deg);
+      font-family:$font-family;
+      font-size: $font-size;
+      font-weight:$font-weight;
+      @extend %#{$component}-font;
+    }
+  }
+  &:hover,&:focus{
+    cursor:pointer;
+    @extend %#{$component}-background-hover;
+  }
+
+  @include touch-content(){
+    display:none !important;
+  }
+}
+
+@mixin ui-screentab($class:null,$tag:null,$component:default,
+$height:150px,
+$width:30px,
+$top:150px,
+$z-index:$global-z-index + 999,
+$border-radius:0 $global-radius $global-radius 0,
+$padding:1em,
+$font-family:inherit,
+$font-size:1em,
+$font-weight:normal,
+$letter-spacing:1px,
+$position:fixed
+){
+  $selector:ui-screentab;
+  @if $tag != null{
+    $selector:$tag;
+  }
+  .ui-screentab,#{$selector}{
+
+    @if $class != null{
+      &.#{$class} {
+        @include _ui-screentab($component,
+        $height,
+        $width,
+        $top,
+        $z-index,
+        $border-radius,
+        $padding,
+        $font-family,
+        $font-size,
+        $font-weight,
+        $letter-spacing,
+        $position
+        );
+        @content;
+      }
+    }@else{
+      @include _ui-screentab($component,
+              $height,
+              $width,
+              $top,
+              $z-index,
+              $border-radius,
+              $padding,
+              $font-family,
+              $font-size,
+              $font-weight,
+              $letter-spacing,
+              $position
+      );
+      @content;
+    }
+
+  }
+}

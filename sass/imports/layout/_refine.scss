@@ -1,0 +1,396 @@
+/*
+       ui-refine
+       @include ui-refine(){};
+       @include refine-filters(){
+             @include ui-tip(){}
+             @include selection-filters(){}
+             @include refine-summary(){}
+      }
+*/
+
+/* Private -----------------------------------------------------------------------------------------------------------*/
+
+//refine
+@mixin _ui-refine($component: null, $button-component: null,
+$border-radius: null,
+$padding:null,
+$button-size: null,
+$button-margin:null,
+$button-span-size:null,
+$label-size:null,
+$icon-size: null,
+$icon:null,
+$icon-top:null,
+$icon-left:null,
+$touch-icon-top:null,
+$touch-icon-left:null,
+$icon-active:null,
+$icon-active-top:null,
+$icon-active-left:null,
+$touch-icon-active-top:null,
+$touch-icon-active-left:null,
+$span-label-top:null,
+$span-label-left:null
+) {
+
+  $button-selector:'.refine-button';
+  $label-selector:'.refine-label';
+  @if $component-custom-tags==true{
+    $button-selector:refine-button;
+    $label-selector:refine-label;
+  }
+
+  @extend %#{$component}-background !optional;
+  @extend %#{$component}-font !optional;
+  @extend %#{$component}-border !optional;
+  padding: $padding;
+  margin: 0;
+  border-radius: $border-radius;
+  @include flexbox();
+  cursor: pointer;
+  #{$button-selector}{
+    display:block;
+    border-radius: 50%;
+    height: $button-size;
+    width: $button-size;
+    @extend %#{$button-component}-background !optional;
+    margin: $button-margin;
+    position: relative;
+    &.selections {
+      &:after {
+        content: '' !important;
+      }
+    }
+    span {
+      position: absolute;
+      font-size: $button-span-size;
+      @extend %#{$button-component}-font !optional;
+      top: $span-label-top;
+      left:$span-label-left;
+    }
+    &:after {
+      font-family:$global-icon-font-family;
+      content: '#{$icon}';
+      font-size: $icon-size;
+      top: $icon-top;
+      left: $icon-left;
+      position: absolute;
+      @extend %#{$button-component}-font !optional;
+      @include touch-content(){
+        top: $touch-icon-top;
+        left: $touch-icon-left;
+      }
+    }
+    &.active{
+      &:after {
+        content: '#{$icon-active}';
+        top:$icon-active-top;
+        left:$icon-active-left;
+        @include touch-content(){
+          top: $touch-icon-active-top;
+          left: $touch-icon-active-left;
+        }
+      }
+    }
+  }
+
+  #{$button-selector} {
+    display:block;
+    font-size: $label-size;
+  }
+
+
+}
+
+//refine filters
+@mixin _refine-filters($component: null,
+$justification:null,
+$alignment:null,
+$min-height:null,
+$margin:null,
+$border-radius:null,
+$padding:null,
+$item-margin:null
+) {
+
+  $element-selector:'.filters-container';
+  @if $component-custom-tags==true{
+    $element-selector:filters-container;
+  }
+  $touch-item-margin:0 0 1.25em 0;
+  $touch-margin-top:1em;
+  margin: $margin;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  @extend %#{$component}-background !optional;
+  border-radius: $border-radius;
+  min-height: $min-height;
+  position: relative;
+  @extend %#{$component}-border !optional;
+  display: none;
+  &.active{
+    display:block;
+  }
+  ui-template{
+      width:100% !important;
+  }
+  filters-container,ui-template{
+    @include flexbox($justification:$justification,$alignment:$alignment);
+    width: 100%;
+    @include flex-wrap(wrap);
+  }
+  filters-container{
+    padding:$padding;
+    refine-summary,selection-filters{
+      width:29%;
+      margin:$item-margin;
+    }
+    @include touch-content(){
+      padding:1em;
+    }
+    @include media-breakpoint(1000px){
+        refine-summary,selection-filters{
+          width:45%;
+          margin:0 1em 1.25em 0;
+        }
+    }
+    @include media-breakpoint(600px){
+       refine-summary,selection-filters {
+          width:95%;
+          margin:0 1em 1.25em 0;
+        }
+    }
+  }
+
+  @include touch-content(){
+    margin-top: $touch-margin-top;
+    @include gutter-bleed();
+  }
+ 
+}
+
+/* Public -----------------------------------------------------------------------------------------------------------*/
+
+
+
+/* ui-refine --------------------------------------------------------------------------------------------------------*/
+@mixin ui-refine($component: css-refine-tab, $button-component: css-refine-button,
+$border-radius:$global-radius,
+$padding:.25em .25em .25em 1em,
+$button-size: 1.25em,
+$button-margin:0 0 0 2.5em,
+$button-span-size:.6em,
+$label-size:1.25em,
+$icon-size: .6em,
+$icon:$global-icon-down-arrow,
+$icon-top:0,
+$icon-left:.2em,
+$touch-icon-top:0,
+$touch-icon-left:.2em,
+$icon-active:$global-icon-up-arrow,
+$icon-active-top:-2px,
+$icon-active-left:.2em,
+$touch-icon-active-top:0,
+$touch-icon-active-left:.2em,
+$span-label-top:-3px,
+$span-label-left:6px
+) {
+
+  $element-selector:'.ui-refine';
+  @if $component-custom-tags==true{
+    $element-selector:ui-refine;
+  }
+
+  #{$element-selector} {
+     @include _ui-refine($component, $button-component,
+     $border-radius,$padding,$button-size,$button-margin,$button-span-size,$label-size,
+             $icon-size,$icon,$icon-top,$icon-left,$touch-icon-top,$touch-icon-left,
+             $icon-active,$icon-active-top,$icon-active-left,$touch-icon-active-top,$touch-icon-active-left,
+             $span-label-top,$span-label-left
+     );
+  }
+  #{$element-selector}{
+    @content;
+  }
+}
+
+
+/* refine filters container ---------------------------------------------------------------------------------------*/
+@mixin refine-filters($component: css-refine-filters,
+$justification:flex-start,
+$alignment:flex-start,
+$min-height:300px,
+$margin:0,
+$border-radius:$global-radius,
+$padding:2em,
+$item-margin:0 2em 1.25em 0,
+$touch-border-radius:0,
+$touch-border:1px solid #ccc !important,
+$touch-padding:0
+
+) {
+
+  $element-selector:'.refine-filters';
+  @if $component-custom-tags==true{
+    $element-selector:refine-filters;
+  }
+
+  #{$element-selector} {
+    @include _refine-filters($component,$justification,$alignment,$min-height,$margin,$border-radius,$padding,$item-margin);
+    @include touch-content(){
+      border-radius:$touch-border-radius;
+      border:$touch-border;
+      padding:$touch-padding;
+
+    }
+    @content;
+  }
+
+}
+
+
+/* Selection Filters -------------------------------------------------------------------------------------------------*/
+@mixin selection-filters($component: css-selection-filters,$header-component:css-selection-filters-header,
+$border-radius:$global-radius,
+$item-padding:.25em 2px .25em 1em,
+$font-size:1.1em,
+$min-height:8em,
+$link-decoration:none,
+$link-transform:none
+) {
+
+  $element-selector:'.selection-filters';
+  $item-selector:'li';
+  @if $component-custom-tags==true{
+    $element-selector:selection-filters;
+    $item-selector:filter-item;
+  }
+
+  #{$element-selector} {
+    list-style: none;
+    display:block;
+    min-height:$min-height;
+    @extend %#{$component}-background !optional;
+    border-radius: $border-radius;
+    font-size: $font-size;
+    @extend %#{$component}-border !optional;
+
+    & > #{$item-selector} {
+      display:list-item;
+      font-size:1em;
+      padding: $item-padding;
+      @extend %#{$component}-font !optional;
+      &.color-selections {
+        display: inline-block;
+      }
+      &:first-child {
+        @extend %#{$header-component}-border !optional;
+        @extend %#{$header-component}-background !optional;
+        @extend %#{$header-component}-font !optional;
+        border-top:0 !important;
+        border-right:0 !important;
+        border-left:0 !important;
+        border-top-right-radius: $border-radius;
+        border-top-left-radius: $border-radius;
+      }
+      &:last-child {
+        border-bottom: 0 !important;
+      }
+      a {
+        @extend %#{$component}-font !optional;
+        text-transform: $link-transform;
+        &:hover {
+          cursor: pointer;
+          @extend %#{$component}-font-hover !optional;
+          text-decoration: $link-decoration;
+        }
+      }
+    }
+   @content;
+  }
+}
+
+
+/* Options selected summary ---------------------------------------------------------------------------------------*/
+@mixin refine-summary($component: css-refine-summary, $button-component:css-refine-summary-button,
+$item-padding:.3em .5em .3em 1.5em !important,
+$item-size:.75em,
+$button-font-size:.75em,
+$button-border-radius:3px,
+$button-padding:.4em,
+$item-selection-padding:0 0 0 1.5em,
+$item-selection-font-size:.9em,
+$border-radius:$global-radius,
+$icon-top:3px,
+$icon-left:5px,
+$last-child-margin:70px 0 0 0
+
+) {
+
+  $element-selector:'.refine-summary';
+  $item-selector:'li';
+  @if $component-custom-tags==true{
+    $element-selector:refine-summary;
+    $item-selector:summary-item;
+  }
+
+  #{$element-selector} {
+    @extend %#{$component}-background !optional;
+    @extend %#{$component}-border !optional;
+    list-style: none;
+    display:block;
+    border-radius: $border-radius;
+    & > #{$item-selector} {
+      display:list-item;
+      @extend %#{$component}-font !optional;
+      font-size: $item-size;
+      position: relative;
+      margin: 0;
+      padding: $item-padding;
+      background:none;
+      &:first-child {
+        @extend %#{$component}-font !optional;
+        @extend %#{$component}-border !optional;
+        border-top:0 !important;
+        border-right:0 !important;
+        border-left:0 !important;
+      }
+      & > button {
+
+        @extend %#{$button-component}-background !optional;
+        @extend %#{$button-component}-font !optional;
+        font-size: $button-font-size;
+        border-radius: $button-border-radius;
+        border: 0;
+        padding: $button-padding;
+        cursor: pointer;
+        outline:none;
+      }
+      &:last-child {
+        border-bottom: 0;
+        margin:$last-child-margin;
+      }
+      &.selection {
+        padding: $item-selection-padding;
+
+        &:before {
+          font-family: $global-icon-font-family;
+          content: '#{$global-icon-remove}';
+          position: absolute;
+
+          @extend %#{$component}-icon !optional;
+          font-size: $item-selection-font-size;
+          top: $icon-top;
+          left: $icon-left;
+        }
+        &:hover {
+          @extend %#{$component}-background-hover !optional;
+          cursor: pointer;
+        }
+      }
+    }
+    @content;
+  }
+
+}
+

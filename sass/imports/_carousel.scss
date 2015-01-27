@@ -1,0 +1,508 @@
+﻿/* ui-carousel */
+
+/* private -----------------------------------------------------------------------------------------------------------*/
+@include component($component:css-carousel,
+$background:none,
+$font-color:#ccc,
+$font-color-hover:.8
+);
+
+@mixin _ui-carousel($component: null,
+$height: null,
+$width: null,
+$margin: null,
+$justification:null,
+$alignment:null,
+$inner-container-width: null,
+$inner-container-max-width: null,
+$item-width: null,
+$item-max-width:null,
+$item-max-height: null,
+$item-height:null,
+$item-justification: null,
+$item-alignment: null,
+$item-margin-right: null,
+$item-border: null,
+$item-border-active: null,
+$item-padding: null,
+$button-padding: null,
+$button-width: null,
+$button-top-position: null,
+$button-left-position: null,
+$button-right-position: null,
+$button-prev-icon-left-position: null,
+$button-next-icon-left-position: null,
+$icon-size: null,
+$icon-top-position: null,
+$z-index: null,
+$constrain-image-to-width: null,
+$image-top-position: null,
+$navigation-top-position: null,
+$navigation-position: null,
+$navigation-next-icon: null,
+$navigation-prev-icon: null,
+$navigation-font-size: null,
+$navigation-color: null,
+$navigation-hover-opacity: null,
+$navigation-hover: null,
+$include-touch-media-queries: null,
+$indicator-top:null,
+$indicator-right:null,
+$indicator-icon:null,
+$indicator-icon-active:null,
+$indicator-icon-size:null,
+$indicator-icon-color:null,
+$indicator-icon-margin:null
+) {
+
+  position: relative;
+  @include flexbox($justification: $justification, $alignment: $alignment);
+  width: $width;
+  @if $height !=null {
+    height: $height;
+  }
+  @if $margin !=null {
+    margin: $margin;
+  }
+  &:hover, &:focus {
+    carousel-navigation {
+      opacity: 1;
+    }
+  }
+
+  &.hidden {
+    visibility: hidden;
+  }
+  &[indicators=true]{
+    & > carousel-navigation{
+      &.indicators{
+          opacity:1;
+        @include flexbox($justification: flex-start, $alignment: center);
+      }
+      &.prev,&.next{
+        display:none;
+      }
+    }
+  }
+  & > carousel-navigation {
+    position: absolute;
+    top: $navigation-top-position;
+    z-index: $z-index;
+    height: $navigation-font-size;
+    width: $navigation-font-size;
+
+    @if $navigation-hover==true {
+      opacity: 0;
+      @include transition(all 0.25s linear);
+    } @else {
+      opacity: 1;
+    }
+
+    &.disabled, [disabled] {
+      display: none !important;
+    }
+    &.nav-visible {
+      visibility: visible;
+    }
+    &.visible {
+      visibility: visible;
+      opacity: 1;
+    }
+    &:hover, &:focus {
+      cursor: pointer;
+      opacity: $navigation-hover-opacity;
+
+    }
+    &.next {
+      right: $navigation-position;
+      &:after {
+        content: '#{$navigation-next-icon}';
+        font-family: $global-icon-font-family;
+        font-size: $navigation-font-size;
+        @extend %#{$component}-font !optional;
+      }
+    }
+    &.prev {
+      left: $navigation-position;
+      &:after {
+        content: '#{$navigation-prev-icon}';
+        font-family: $global-icon-font-family;
+        font-size: $navigation-font-size;
+        @extend %#{$component}-font;
+      }
+    }
+    &.indicators {
+      display:none;
+      list-style: none;
+      position: absolute;
+      top: $indicator-top;
+      right: $indicator-right;
+      &:hover {
+        opacity: 1;
+      }
+      & > li {
+        min-height: $indicator-icon-size;
+        min-width: $indicator-icon-size;
+        color: $indicator-icon-color;
+        position: relative;
+        margin: $indicator-icon-margin;
+        display: list-item;
+        &:hover {
+          cursor: pointer;
+          opacity: 1;
+        }
+        &:before {
+          font-family: $global-icon-font-family;
+          font-size: $indicator-icon-size;
+          color: $indicator-icon-color;
+          content: '#{$indicator-icon}';
+        }
+        &.active {
+          &:before {
+            content: '#{$indicator-icon-active}';
+          }
+        }
+      }
+      @include phone-content() {
+        display: none;
+      }
+    }
+  }
+
+  button {
+    &.ui-button {
+      position: absolute;
+      top: $button-top-position;
+      z-index: $z-index;
+      padding: $button-padding;
+      width: $button-width;
+
+      &.next {
+        right: $button-right-position;
+        &:after {
+          font-size: $icon-size;
+          left: $button-next-icon-left-position;
+          top: $icon-top-position;
+        }
+      }
+      &.prev {
+        left: $button-left-position;
+        &:after {
+          font-size: $icon-size;
+          left: $button-prev-icon-left-position;
+          top: $icon-top-position;
+        }
+      }
+    }
+  }
+
+  carousel-inner-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width:100%;
+    height:100%;
+    @if $inner-container-width !=null {
+      width: $inner-container-width;
+    }
+    max-width: $inner-container-max-width;
+    &.hidden {
+      visibility: hidden;
+    }
+    &.visible {
+      visibility: visible;
+    }
+    .multi-border {
+      border: 1px solid transparent;
+    }
+    carousel-items, ui-template {
+      list-style: none;
+      @include flexbox($justification: flex-start, $alignment: flex-start);
+      width: 100%;
+      height:100%;
+      padding: 0;
+      & > carousel-item {
+        width: 100%;
+        height: $item-height;
+        max-width:$item-max-width;
+        margin: 0;
+        overflow: hidden;
+        position: relative;
+        display: list-item;
+        img {
+          max-width: 100%;
+          height: auto !important;
+        }
+
+      }
+      &[data-animation=multi-slide], &[animation=multi-slide] {
+        width: auto;
+        & > carousel-item {
+          @include flexbox-column($justification: $item-justification, $alignment: $item-alignment);
+          @if $item-width !=null {
+            min-width: $item-width !important;
+            max-width: $item-width !important;
+          }
+          height: auto;
+          margin-right: $item-margin-right;
+          overflow: hidden;
+          position: relative;
+          border: $item-border;
+          padding: $item-padding;
+          cursor: pointer;
+          &.active {
+            border: $item-border-active;
+          }
+          @if $constrain-image-to-width != true {
+            img {
+              max-width: none;
+              position: absolute;
+            }
+          }
+        }
+      }
+      &[data-animation=fade], &[animation=fade] {
+        display: block;
+        & > carousel-item {
+          display: none;
+          position: absolute;
+          opacity: 0;
+          float: none;
+          z-index: 1;
+          &:first-child {
+            display: inherit;
+            position: relative;
+            float: left;
+            opacity: 1;
+            z-index: 2;
+          }
+          img {
+            max-width: 100%;
+            height: auto;
+          }
+          @if $include-touch-media-queries==true {
+            @include tablet-content() {
+              img {
+                max-width: 150% !important;
+                margin-left: -25% !important;
+              }
+            }
+            @include phone-content() {
+              img {
+                max-width: 200% !important;
+                margin-left: -50% !important;
+              }
+            }
+          }
+        }
+      }
+      &[data-animation=slide], &[animation=slide] {
+        & > carousel-item {
+          max-width: 100%;
+          min-width: 100%;
+          @if $include-touch-media-queries==true {
+            @include tablet-content() {
+              img {
+                max-width: 150% !important;
+                margin-left: -25% !important;
+              }
+            }
+            @include phone-content() {
+              img {
+                max-width: 200% !important;
+                margin-left: -50% !important;
+              }
+            }
+          }
+        }
+      }
+      @if $item-max-height != null {
+        & > carousel-item {
+          max-height: $item-max-height;
+          overflow: hidden;
+          img {
+            margin-top: $image-top-position;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+/* Public -----------------------------------------------------------------------------------------------------------*/
+
+@mixin ui-carousel($class: null, $component: css-carousel, $tag: null,
+$height: auto,
+$width: 100%,
+$margin: null,
+$justification:center,
+$alignment:flex-start,
+$inner-container-width: null,
+$inner-container-max-width: none,
+$item-width: null,
+$item-max-width:none,
+$item-max-height: null,
+$item-height:auto,
+$item-justification: flex-start,
+$item-alignment: center,
+$item-margin-right: 12px,
+$item-border: 0,
+$item-border-active: 0,
+$item-padding: 0,
+$button-padding: 30px 15px 30px 15px,
+$button-width: 26px,
+$button-top-position: 45%,
+$button-left-position: 0,
+$button-right-position: 0,
+$button-prev-icon-left-position: 0,
+$button-next-icon-left-position: 0,
+$icon-size: 20px,
+$icon-top-position: 20px,
+$z-index: $global-z-index + 100,
+$constrain-image-to-width: true,
+$image-top-position: 0,
+$navigation-top-position: 40%,
+$navigation-position: 2em,
+$navigation-next-icon: \e179,
+$navigation-prev-icon: \e178,
+$navigation-font-size: 2em,
+$navigation-color: $white,
+$navigation-hover-opacity: .8,
+$navigation-hover: true,
+$include-touch-media-queries: true,
+$indicator-top:80%,
+$indicator-right:10%,
+$indicator-icon:\e05d,
+$indicator-icon-active:\e05e,
+$indicator-icon-size:1em,
+$indicator-icon-color:$white,
+$indicator-icon-margin:0 .75em 0 0
+) {
+
+
+  $element-selector: ui-carousel;
+  @if $tag != null {
+    $element-selector: $tag;
+  }
+
+  #{$element-selector} {
+    @if $class != null {
+      &.#{$class} {
+
+        @include _ui-carousel($component,
+                $height,
+                $width,
+                $margin,
+                $justification,
+                $alignment,
+                $inner-container-width,
+                $inner-container-max-width,
+                $item-width,
+                $item-max-width,
+                $item-max-height,
+                $item-height,
+                $item-justification,
+                $item-alignment,
+                $item-margin-right,
+                $item-border,
+                $item-border-active,
+                $item-padding,
+                $button-padding,
+                $button-width,
+                $button-top-position,
+                $button-left-position,
+                $button-right-position,
+                $button-prev-icon-left-position,
+                $button-next-icon-left-position,
+                $icon-size,
+                $icon-top-position,
+                $z-index,
+                $constrain-image-to-width,
+                $image-top-position,
+                $navigation-top-position,
+                $navigation-position,
+                $navigation-next-icon,
+                $navigation-prev-icon,
+                $navigation-font-size,
+                $navigation-color,
+                $navigation-hover-opacity,
+                $navigation-hover,
+                $include-touch-media-queries,
+                $indicator-top,
+                $indicator-right,
+                $indicator-icon,
+                $indicator-icon-active,
+                $indicator-icon-size,
+                $indicator-icon-color,
+                $indicator-icon-margin
+        );
+
+        @content;
+      }
+    } @else {
+
+      @include _ui-carousel($component,
+              $height,
+              $width,
+              $margin,
+              $justification,
+              $alignment,
+              $inner-container-width,
+              $inner-container-max-width,
+              $item-width,
+              $item-max-width,
+              $item-max-height,
+              $item-height,
+              $item-justification,
+              $item-alignment,
+              $item-margin-right,
+              $item-border,
+              $item-border-active,
+              $item-padding,
+              $button-padding,
+              $button-width,
+              $button-top-position,
+              $button-left-position,
+              $button-right-position,
+              $button-prev-icon-left-position,
+              $button-next-icon-left-position,
+              $icon-size,
+              $icon-top-position,
+              $z-index,
+              $constrain-image-to-width,
+              $image-top-position,
+              $navigation-top-position,
+              $navigation-position,
+              $navigation-next-icon,
+              $navigation-prev-icon,
+              $navigation-font-size,
+              $navigation-color,
+              $navigation-hover-opacity,
+              $navigation-hover,
+              $include-touch-media-queries,
+              $indicator-top,
+              $indicator-right,
+              $indicator-icon,
+              $indicator-icon-active,
+              $indicator-icon-size,
+              $indicator-icon-color,
+              $indicator-icon-margin
+      );
+
+      @content;
+    }
+  }
+  //don't show navigation for touch
+  @include touch-content() {
+    #{$element-selector} {
+      .ui-button, carousel-navigation {
+        display: none;
+      }
+      overflow-x:hidden;
+    }
+  }
+}
