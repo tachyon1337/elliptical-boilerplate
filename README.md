@@ -1,6 +1,6 @@
 # Elliptical Html Boilerplate Project
 
-Installs as an elliptical start-up html project
+Installs an elliptical start-up html project
 
 ## Installation
 
