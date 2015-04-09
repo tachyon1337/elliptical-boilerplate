@@ -39,4 +39,5 @@ node_modules/
 #Test
 test/
 
-umd.js
+/scripts-cpy
+

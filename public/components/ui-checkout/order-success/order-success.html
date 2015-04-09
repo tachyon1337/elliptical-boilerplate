@@ -1,0 +1,72 @@
+<script src="order-success.js"></script>
+<order-success>
+    <template>
+        <ui-template id="fragment-order-success">
+          {#paymentItem}
+            <ui-flex-container class="top space-between summary-info">
+                <h3 class="header-summary">Your Order Summary</h3>
+                <div class="track-button">
+                      <a class="ui-button secondary track-button" href="/Account/Order/Details/{orderId}">Track Order Status</a>
+                </div>
+            </ui-flex-container>
+
+            <ui-flex-label>
+                <li>
+                    <label>Order Id:</label>
+                    <span>{orderId}</span>
+                </li>
+                <li>
+                    <label>Order Date:</label>
+                    <span>{orderDate}</span>
+                </li>
+                <li>
+                    <label>Auth Code:</label>
+                    <span>{authCode}</span>
+                </li>
+                <li>
+                    <label>Transaction Id:</label>
+                    <span>{transactionId}</span>
+                </li>
+                <li>
+                    <label>Payment Amount:</label>
+                    <span>${@formatCurrency value="{paymentAmount}" /}</span>
+                </li>
+                <li>
+                    <label>Credit Card Type:</label>
+                    <span>{cardType}</span>
+                </li>
+            </ui-flex-label>
+        {/paymentItem}
+            <ui-flex-container class="top space-between address-info">
+                <div>
+                    <h4>Billing Information</h4>
+                    {#billingAddress}
+                        <p>{firstName} {lastName}</p>
+                        <p>{street}</p>
+                        <p>{city}, {state} {zip}</p>
+                        <p>{phone}</p>
+                    {/billingAddress}
+                </div>
+                <div>
+                    <h4>Shipping Information</h4>
+                    {#shippingAddress}
+                        <p>{firstName} {lastName}</p>
+                        <p>{street}</p>
+                        <p>{city}, {state} {zip}</p>
+                        <p>{phone}</p>
+                    {/shippingAddress}
+                </div>
+            </ui-flex-container>
+            <h3 class="header-details">Your Order Details</h3>
+            <ui-flex-container class="top center">
+                   <checkout-bag html5-imported="true" render-inline="true" inline-scope="shoppingBag" inline-template="checkout-bag"></checkout-bag>
+            </ui-flex-container>
+            <h3 class="order-notes">Your Order Notes</h3>
+            <div>
+              {#shoppingBag}
+                {notes}
+              {/shoppingBag}
+            </div>
+        </ui-template>
+    </template>
+</order-success>

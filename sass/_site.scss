@@ -1,0 +1,140 @@
+///site sass project main start file
+///compile: <ruby sass>: sass app.scss ./public/css/app.css
+///         <node sass>: node-sass app.scss ./public/css/app.css
+/// OR: gulp tasks
+/// gulp start  --->localhost:8080 , auto compilation on changes
+/// gulp start-live --->localhost:9040 , auto compilation and live reload on changes
+
+
+
+///imports--------------------------------------------
+@import "fonts";
+@import "settings";
+@import "../node_modules/elliptical-sass/stylesheets/elliptical";
+@import "mixins";
+@import "theme";
+
+
+@include component-theme($touch:$theme);
+@include elliptical-project();
+
+
+
+///variables & colors ---------------------------------
+@import "variables";
+
+
+///sass components --------------------------------------
+@import "sass-components";
+
+
+///typography-----------------------------------------------
+.logo-main{
+  width: 283px;
+  height: 78px;
+  margin-top:auto;
+  margin-bottom:auto;
+}
+
+.demo-web-components{
+  &>*{
+    margin-left:auto;
+  }
+}
+
+.demo-panel{
+  margin-top:3em;
+}
+
+.style-color-green{
+  color:map-get($colors,green);
+}
+
+.subscribe{
+  max-width:350px;
+  margin-left:auto;
+}
+
+@include demo-badge();
+
+.get-started{
+  h4.secondary{
+    margin-top:1.5em;
+  }
+}
+
+
+///grid -----------------------------------------------------
+grid-columns{
+  &.bordered{
+    border-right:1px solid map-get($Base,gray-light);
+    @include touch-content(){
+      border-right:0;
+      border-bottom:1px solid map-get($Base,gray-light);
+    }
+  }
+}
+
+
+///icons------------------------------------------------------
+
+
+
+
+
+///forms------------------------------------------------------
+
+
+
+
+
+///web components---------------------------------------------
+@import "web-components";
+
+
+///custom pages & sections----------------------------------------
+section.outer{
+  min-height:300px;
+  padding-top: 1em;
+  &.no-padding{
+    padding-top:0;
+  }
+  @include touch-content(){
+    padding-top:70px !important;
+  }
+  &.home{
+    padding-top:2em;
+
+  }
+}
+
+
+///footer----------------------------------------------------------
+@include ui-sticky-footer();
+@include demo-footer();
+
+
+
+
+
+
+///media queries---------------------------------------------------
+@import "media-queries";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

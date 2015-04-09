@@ -1,0 +1,15 @@
+<script src="order-notes.js"></script>
+<link rel="import" property="elements" href="../icon-elements/checkout-section-icon.html">
+<order-notes>
+    <template>
+        <button class="ui-button secondary next" data-role="screen-button">continue</button>
+        <checkout-section-icon header="Order Notes" step="5"></checkout-section-icon>
+        <p class="intro">
+            Provide any special notes or instructions regarding your order here.
+        </p>
+        <form id="fragment-order-notes" class="hidden">
+            <textarea name="notes" class="text-order-notes" data-bind="value:notes" placeholder="Order Notes">{notes}</textarea>
+            <button class="ui-button secondary next" data-role="form-button">continue</button>
+        </form>
+    </template>
+</order-notes>

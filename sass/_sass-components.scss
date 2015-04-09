@@ -1,0 +1,14 @@
+///sass components are the default:hover:active visual states injected into web components
+/// @mixin component(name<string>,map<map>)
+@import "../node_modules/elliptical-sass/stylesheets/elliptical";
+@import "variables";
+
+
+
+@include extend-component(ci-bar-menu,css-bar-menu, (
+        font-color:map-get($Core,gray)
+));
+
+@include extend-component($component:ci-default-light,$extend-component:default,$map:(
+        background:#f7f7f7
+));

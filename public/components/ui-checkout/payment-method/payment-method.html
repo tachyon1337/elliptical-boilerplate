@@ -1,0 +1,62 @@
+<script src="payment-method.js"></script>
+<link rel="import" property="elements" href="../icon-elements/checkout-section-icon.html">
+<payment-method>
+    <template>
+        <button class="ui-button secondary next" data-role="screen-button">continue</button>
+        <checkout-section-icon header="Payment Method" step="4"></checkout-section-icon>
+        <form id="fragment-payment-method" class="hidden">
+            {#transaction}
+              {@if cond="'{allowLastTransactionCard}'"}
+              <ui-checkbox class="ui-semantic-checkbox success margin-bottom" id="lastTransactionCard">
+                  <input type="checkbox" id="submitLastTransactionCard" name="submitLastTransactionCard" data-bind="checked:transaction.submitLastTransactionCard">
+                  <label>Use Credit Card from Last Transaction</label>
+              </ui-checkbox>
+              {/if}
+            {/transaction}
+            <label for="id">Payment Type</label>
+            <ui-select>
+                <select id="id" data-bind="value:creditCardItem.id" required>
+                    <option value="Select">Select</option>
+                  {#acceptedCreditCards}
+                    <option value="{id}" data-redirect-action="{redirectAction}">{label}</option>
+                  {/acceptedCreditCards}
+                </select>
+            </ui-select>
+            {#creditCardItem}
+            <div class="ui-button large ci-paypal hide" data-redirect-btn></div>
+            <div data-card data-bind="value:creditCardItem.id:updateUI">
+                <input type="hidden" name="id" data-bind="value:creditCardItem.id">
+                <label for="cardNumber" class="label-card-number">Credit Card Number</label>
+                <input type="text" id="cardNumber" name="cardNumber" data-bind="value:creditCardItem.cardNumber" placeholder="Credit Card Number" required>
+                <label for="ccCode" class="label-card-number">Credit Card CC Number</label>
+                <input type="text" id="ccCode" name="ccCode" data-bind="value:creditCardItem.ccCode" class="card-cc-number" placeholder="CC Number" maxlength="4" required>
+            </div>
+            <ui-flex-container class="left top payment-card-dates" data-card>
+                <div>
+                    <label>Card Expiration Month</label>
+                    <ui-select>
+                        <select id="expMonth" data-bind="value:creditCardItem.expMonth">
+                            {#months}
+                                <option value="{month}">{label}</option>
+                            {/months}
+                        </select>
+                    </ui-select>
+                    <input type="hidden" name="expMonth" data-bind="value:creditCardItem.expMonth">
+                </div>
+                <div>
+                    <label>Card Expiration Year</label>
+                    <ui-select>
+                        <select id="expYear" data-bind="value:creditCardItem.expYear">
+                            {#years}
+                            <option value="{year}">{year}</option>
+                            {/years}
+                        </select>
+                    </ui-select>
+                    <input type="hidden" name="expYear" data-bind="value:creditCardItem.expYear">
+                </div>
+            </ui-flex-container>
+            {/creditCardItem}
+            <button class="ui-button secondary next" data-role="form-button">continue</button>
+        </form>
+    </template>
+</payment-method>

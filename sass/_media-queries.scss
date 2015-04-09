@@ -1,0 +1,73 @@
+///site/project media queries
+
+@import "../node_modules/elliptical-sass/stylesheets/elliptical";
+@import "variables";
+@import "mixins";
+
+///media queries---------------------------------------------------
+
+
+///desktop
+@include desktop-content() {
+
+}
+
+///touch
+@include touch-content() {
+  .logo-main{
+    width: 226px;
+    height: 62px;
+  }
+  h2.style-color-green{
+    font-size:32px;
+  }
+  .demo-panel{
+    grid-columns{
+      margin-bottom:1em;
+    }
+  }
+
+}
+
+
+///tablet
+@include tablet-content() {
+
+
+}
+
+///phone
+@include phone-content() {
+  .phone-border{
+    border-top:1px solid map-get($Base,gray);
+    @include gutter-collapse-m();
+    padding-top:1em;
+    padding-bottom:1.5em;
+  }
+  .phone-padding{
+    @include gutter-collapse-m();
+    padding-bottom:1.5em;
+  }
+
+  .subscribe{
+    margin-top:1em;
+    margin-left:0;
+  }
+}
+
+///grid contain(screen width=grid width)
+@include grid-contain-content() {
+
+}
+
+///custom breakpoints
+@include media-breakpoint(950px){
+  .demo-badge{
+    background:none;
+    border:0 !important;
+  }
+
+  @include demo-flex();
+}
+
+

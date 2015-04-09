@@ -1,0 +1,15 @@
+﻿<script src="ui-switch.js"></script>
+<style>
+    ui-switch{
+        position:relative;
+        visibility:hidden;
+    }
+    ui-switch input[type=checkbox]{
+        visibility:hidden;
+    }
+</style>
+<ui-switch parse-template>
+    <template>
+        <input type="checkbox" data-bind="checked:##ea-id##" id="##ea-id##" class="ui-switch"  /><label for="##ea-id##" class="ui-switch"></label>
+    </template>
+</ui-switch>

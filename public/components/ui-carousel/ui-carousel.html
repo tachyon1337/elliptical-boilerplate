@@ -1,0 +1,22 @@
+<script src="ui-carousel.js"></script>
+<ui-carousel parse-template>
+    <template>
+        <carousel-navigation class="prev"></carousel-navigation>
+        <carousel-navigation class="next"></carousel-navigation>
+        <carousel-navigation class="indicators"></carousel-navigation>
+        <carousel-inner-container>
+            <carousel-items animation="##animation##">
+                <ui-template id="fragment-carousel" animation="##animation##">
+                    {#images}
+                        <carousel-item data-id="{id}" url="{link}">
+                            <div>
+                                <img src="{src}">
+                            </div>
+                            <a href="{link}">{name|s}</a>
+                        </carousel-item>
+                    {/images}
+                </ui-template>
+            </carousel-items>
+        </carousel-inner-container>
+    </template>
+</ui-carousel>

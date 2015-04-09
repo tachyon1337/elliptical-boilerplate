@@ -1,0 +1,43 @@
+<script src="billing-address.js"></script>
+<link rel="import" property="elements" href="../state-select/state-select.html">
+<link rel="import" property="elements" href="../icon-elements/checkout-section-icon.html">
+<billing-address>
+    <template>
+        <button class="ui-button secondary next" data-role="screen-button">continue</button>
+        <checkout-section-icon header="Billing Address" step="1"></checkout-section-icon>
+        <ui-flex-container class="top space-between form-container">
+            <form id="fragment-billing-address" class="hidden">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" data-bind="value:firstName" placeholder="First Name" value="{firstName}" required>
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" data-bind="value:lastName" placeholder="Last Name" value="{lastName}" required>
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" data-bind="value:email" placeholder="Email" value="{email}" required>
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone" data-bind="value:phone" placeholder="Phone" value="{phone}" required>
+                <label for="Street">Street</label>
+                <input type="text" id="street" name="street" data-bind="value:street" placeholder="Street Address" value="{street}" required>
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" data-bind="value:city" placeholder="City" value="{city}" required>
+                <label>State</label>
+                <state-select field="state" html5-imported="true"></state-select>
+                <input type="hidden" name="state" data-bind="value:state">
+
+                <label for="zip">Zip Code</label>
+                <input type="text" id="zip" name="zip" data-bind="value:zip" placeholder="Zip Code" value="{zip}" required>
+                <button class="ui-button secondary next" data-role="form-button">continue</button>
+            </form>
+            <aside>
+               <ui-checkbox>
+                  <input type="checkbox" id="resetBilling">
+                  <label>New Billing Address</label>
+               </ui-checkbox>
+                <ui-checkbox>
+                  <input type="checkbox" id="setShippingToBilling">
+                  <label>Ship to Billing Address</label>
+                </ui-checkbox>
+            </aside>
+        </ui-flex-container>
+    </template>
+
+</billing-address>

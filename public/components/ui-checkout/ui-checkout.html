@@ -1,0 +1,85 @@
+<script src="checkout.js"></script>
+<link rel="import" property="elements" href="icon-elements/collapse-icon.html">
+<link rel="import" property="elements" href="billing-address/billing-address.html">
+<link rel="import" property="elements" href="shipping-address/shipping-address.html">
+<link rel="import" property="elements" href="shipping-method/shipping-method.html">
+<link rel="import" property="elements" href="payment-method/payment-method.html">
+<link rel="import" property="elements" href="order-notes/order-notes.html">
+<link rel="import" property="elements" href="order-review/checkout-bag.html">
+<link rel="import" property="elements" href="order-review/order-review.html">
+<link rel="import" property="elements" href="icon-elements/checkout-section-icon.html">
+<link rel="import" property="elements" href="checkout-step-progress/checkout-step-progress.html">
+<link rel="import" property="elements" href="order-success/order-success.html">
+<link rel="import" property="elements" href="order-failure/order-failure.html">
+<ui-checkout>
+  <template>
+      <checkout-screen>
+          <checkout-progress>
+              <h5>Your Checkout Progress</h5>
+              <checkout-step-progress class="vertical"  top="250" ui="sticky"></checkout-step-progress>
+          </checkout-progress>
+          <checkout-accordion>
+              <ui-collapse class="hide-expanded-headers" animate="false">
+                  <collapse-item class="expand" id="step-1">
+                      <header>
+                          <collapse-icon header="Billing Address" step="1"></collapse-icon>
+                          <button class="ui-button checkout" data-role="toggle">EDIT</button>
+                      </header>
+                      <section>
+                          <billing-address class="section-element" role="form" scope="billingAddress"></billing-address>
+                      </section>
+                  </collapse-item>
+                  <collapse-item id="step-2">
+                      <header>
+                          <collapse-icon header="Shipping Address" step="2"></collapse-icon>
+                          <button class="ui-button checkout" data-role="toggle">EDIT</button>
+                      </header>
+                      <section>
+                          <shipping-address class="section-element" role="form"></shipping-address>
+                      </section>
+                  </collapse-item>
+                  <collapse-item id="step-3">
+                      <header>
+                          <collapse-icon header="Shipping Method" step="3"></collapse-icon>
+                          <button class="ui-button checkout" data-role="toggle">EDIT</button>
+                      </header>
+                      <section>
+                          <shipping-method class="section-element" role="form"></shipping-method>
+                      </section>
+                  </collapse-item>
+                  <collapse-item id="step-4">
+                      <header>
+                          <collapse-icon header="Payment Method" step="4"></collapse-icon>
+                          <button class="ui-button checkout" data-role="toggle">EDIT</button>
+                      </header>
+                      <section>
+                          <payment-method class="section-element" role="form"></payment-method>
+                      </section>
+                  </collapse-item>
+                  <collapse-item id="step-5">
+                      <header>
+                          <collapse-icon header="Order Notes" step="5"></collapse-icon>
+                          <button class="ui-button checkout" data-role="toggle">EDIT</button>
+                      </header>
+                      <section>
+                          <order-notes class="section-element" role="form"></order-notes>
+                      </section>
+                  </collapse-item>
+                  <collapse-item id="step-6">
+                      <header>
+                          <collapse-icon header="Order Review" step="6"></collapse-icon>
+                          <button class="ui-button checkout" data-role="toggle">EDIT</button>
+                      </header>
+                      <section>
+                          <order-review class="section-element" role="form"></order-review>
+                      </section>
+                  </collapse-item>
+              </ui-collapse>
+          </checkout-accordion>
+      </checkout-screen>
+      <processed-screen class="hide">
+          <order-success class="hide"></order-success>
+          <order-failure class="hide"></order-failure>
+      </processed-screen>
+  </template>
+</ui-checkout>

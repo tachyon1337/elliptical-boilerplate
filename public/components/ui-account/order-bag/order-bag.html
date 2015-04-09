@@ -1,0 +1,100 @@
+﻿<script src="order-bag.js"></script>
+<order-bag>
+    <template>
+        <ui-template id="fragment-order-bag" class="order">
+          {#order}
+            <ui-flex-container class="top space-between full-width order-status">
+                <ui-badge class="shipped">{@formatDate value="{orderDate}" /}</ui-badge>
+                <ui-badge status="{orderStatus}">{orderStatus}</ui-badge>
+            </ui-flex-container>
+            <bag-list>
+                <header>
+                    <div><h5>Item</h5></div>
+                    <div><h5>Qty</h5></div>
+                    <div><h5>Price</h5></div>
+                    <div><h5>Subtotal</h5></div>
+                </header>
+                {#items}
+                <bag-item>
+                    <div>
+                        <thumb-image>
+                            <img src="{imgUrl}">
+                        </thumb-image>
+                        <div class="item-descriptions">
+                            <a>{name|s}</a>
+                            <p class="sku">{sku}</p>
+                            {#descriptions}
+                            <p class="hide-for-phone">
+                                <b>{label}: </b>{text|s}
+                            </p>
+                            {/descriptions}
+                        </div>
+                    </div>
+                    <div><span class="quantity">{quantity}</span></div>
+                    <div><span class="price">{@formatCurrency value="{price}" /}</span></div>
+                    <div><span class="price">{@formatCurrency value="{subtotal}" /}</span></div>
+                    <phone-display>
+                        <label>Qty:</label>
+                        <span>{quantity}</span>
+                        <label>Price:</label>
+                        <span>{@formatCurrency value="{price}" /}</span>
+                        <label>Subtotal:</label>
+                        <span>{@formatCurrency value="{subtotal}" /}</span>
+                    </phone-display>
+                </bag-item>
+                {/items}
+            </bag-list>
+            <bag-summary>
+                <bag-totals>
+                    <div class="item-total">
+                        <div class="label">Subtotal</div>
+                        <div class="amount"><span>{@formatCurrency value="{subtotal}" /}</span></div>
+                    </div>
+                    <div class="item-total">
+                        <div class="label">Discount</div>
+                        <div class="amount"><span>{@formatCurrency value="{discount}" /}</span></div>
+                    </div>
+                    <div class="item-total">
+                        <div class="label">Shipping</div>
+                        <div class="amount"><span>{@formatCurrency value="{shipping}" /}</span></div>
+                    </div>
+                    <div class="item-total">
+                        <div class="label">Tax</div>
+                        <div class="amount"><span>{@formatCurrency value="{tax}" /}</span></div>
+                    </div>
+                    <div class="item-total">
+                        <div class="label">Total</div>
+                        <div class="amount"><span>{@formatCurrency value="{total}" /}</span></div>
+                    </div>
+                </bag-totals>
+            </bag-summary>
+            <bag-notes>
+                <h4>Order Notes</h4>
+                <div class="order-badge warning">
+                    {notes}
+                </div>
+            </bag-notes>
+            <bag-payment>
+                <h4>Payment Information</h4>
+                {#creditCardItem}
+                  {id}<br />
+                  {cardNumber} &nbsp;&nbsp;{expMonth}/{expYear}
+                {/creditCardItem}
+            </bag-payment>
+            <bag-shipping>
+                <h4>Shipping Information</h4>
+                {#shippingItem}
+                   <p>{id}</p>
+                {/shippingItem}
+                <p class="bold"> Ship To:</p>
+                <p class="order-badge">
+                    {#shippingAddress}
+                       {firstName}  {lastName} <br />
+                       {street} {city}, {state} {zip}<br />
+                    {/shippingAddress}
+                </p>
+            </bag-shipping>
+        {/order}
+        </ui-template>
+    </template>
+</order-bag>

@@ -1,0 +1,89 @@
+<script src="step-progress.js"></script>
+<checkout-step-progress top="250">
+  <template>
+    <ui-template id="fragment-checkout-step-progress">
+        <step-item class="current">
+            <progress-icon></progress-icon>
+            <progress-label>
+                <label class="pending">Pending...</label>
+                <h6>Billing Address <span class="ui-button tiny checkout">EDIT</span></h6>
+                <div>
+                    {#billingAddress}
+                    <p><span data-bind="text:billingAddress.firstName">{firstName}</span>
+                        &nbsp;<span data-bind="text:billingAddress.lastName">{lastName}</span>
+                    </p>
+                    <p><span data-bind="text:billingAddress.street">{street}</span></p>
+                    <p><span data-bind="text:billingAddress.city">{city}</span>,
+                        <span data-bind="text:billingAddress.state">{state}</span>
+                        <span data-bind="text:billingAddress.zip">{zip}</span></p>
+                    <p><span data-bind="text:billingAddress.phone">{phone}</span></p>
+                    {/billingAddress}
+                </div>
+            </progress-label>
+        </step-item>
+        <step-item>
+            <progress-icon></progress-icon>
+            <progress-label>
+                <label class="pending">Pending...</label>
+                <h6>Shipping Address <span class="ui-button tiny checkout">EDIT</span></h6>
+                <div>
+                 {#shippingAddress}
+                    <p><span data-bind="text:shippingAddress.firstName">{firstName}</span>
+                        &nbsp;<span data-bind="text:shippingAddress.lastName">{lastName}</span>
+                    </p>
+                    <p><span data-bind="text:shippingAddress.street">{street}</span></p>
+                    <p><span data-bind="text:shippingAddress.city">{city}</span>,
+                        <span data-bind="text:shippingAddress.state">{state}</span>
+                        <span data-bind="text:shippingAddress.zip">{zip}</span></p>
+                    <p><span data-bind="text:shippingAddress.phone">{phone}</span></p>
+                 {/shippingAddress}
+                </div>
+            </progress-label>
+        </step-item>
+        <step-item>
+            <progress-icon></progress-icon>
+            <progress-label>
+                <label class="pending">Pending...</label>
+                <h6>Shipping Method <span class="ui-button tiny checkout">EDIT</span></h6>
+                <div>
+                    <p><span data-bind="text:shippingItem.name">{name}</span></p>
+                </div>
+            </progress-label>
+        </step-item>
+        <step-item>
+            <progress-icon></progress-icon>
+            <progress-label>
+                <label class="pending">Pending...</label>
+                <h6>Payment Method <span class="ui-button tiny checkout">EDIT</span></h6>
+                <div>
+                    <p><span data-bind="text:creditCardItem.id"></span>
+                        <span>--</span>
+                        <span data-bind="text:creditCardItem.expMonth"></span>
+                        <span>/</span>
+                        <span data-bind="text:creditCardItem.expYear"></span></p>
+                </div>
+            </progress-label>
+        </step-item>
+        <step-item>
+            <progress-icon></progress-icon>
+            <progress-label>
+                <label class="pending">Pending...</label>
+                <h6>Order Notes <span class="ui-button tiny checkout">EDIT</span></h6>
+                <div>
+                    <p><span>Notes Added</span></p>
+                </div>
+            </progress-label>
+        </step-item>
+        <step-item>
+            <progress-icon></progress-icon>
+            <progress-label>
+                <label class="pending">Pending...</label>
+                <h6>Order Review <span class="ui-button tiny checkout">EDIT</span></h6>
+                <div>
+                    <p><span>Now Reviewing</span></p>
+                </div>
+            </progress-label>
+        </step-item>
+    </ui-template>
+  </template>
+</checkout-step-progress>

@@ -1,0 +1,94 @@
+///project web-components http://webcomponents.org/  http://www.w3.org/standards/techs/components#w3c_all
+///visually style the project web components
+/// @mixin ui-component(sass-component<string>,map<map>)
+
+@import "../node_modules/elliptical-sass/stylesheets/elliptical";
+@import "variables";
+
+@include component-preload();
+@include touch-toggle-menu();
+@include utilities-template();
+
+@include ui-topbar($map:(
+        position:relative
+)){
+  .logo{
+    background:url('img/elliptical-light.svg');
+    height:31px;
+    width:114px;
+    background-size: cover;
+  }
+  @include ui-menu($component:css-bar-menu,$divider:css-menu-divider){
+    @include ui-dropdown($component:css-bar-menu,$map:(
+            border-radius:0
+    )){
+      font-size:.9em;
+      border-top:1px solid lighten(#272727,2%) !important;
+    };
+  };
+  ui-menu{
+    &.user{
+      menu-item,a{
+        &:hover{
+          background:none;
+          color:map-get($Base,white);
+        }
+        &.profile{
+          @include flexbox($alignment:center);
+          visibility:hidden;
+          &.visible{
+            visibility:visible !important;
+          }
+          span{
+            font-size:16px;
+            text-transform:uppercase;
+          }
+          @include span-icon(){
+            background:map-get($Base,gray-medium);
+            color:map-get($Base,gray-medium-light);
+            font-size:32px;
+            margin-right:.2em;
+          }
+        }
+      }
+    }
+  }
+};
+
+@include ui-social();
+@include ui-modal();
+@include ui-window();
+@include ui-tooltip($map:(
+        position:fixed,
+        font-size:.7em
+));
+@include toggle-arrow();
+@include ui-loading();
+@include ui-notification();
+@include ui-carousel($map:(
+        height:200px,
+        item:(
+                height:100%,
+                max-width:350px
+        ),
+        indicator:(
+                icon-color:map-nested-get($Core,inverse,color)
+        )
+)){
+  p{
+    font-size:14px;
+    padding:1em 0 0 1em;
+  }
+};
+@include ui-badge($component:secondary){
+  &.large{
+    padding:map-get($Button,large-padding);
+    font-size:map-get($Button,large-font-size);
+  }
+  &.margin-left{
+    margin-left:3em;
+  }
+};
+
+@include ui-select($tags:(state-select));
+@include ui-oauth();

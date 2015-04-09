@@ -1,0 +1,19 @@
+﻿<script src="ui-item-strip.js"></script>
+<ui-item-strip>
+    <template>
+        <span class="icon-close-2" data-role="close"></span>
+        <h3>Look Items</h3>
+        <ui-template id="fragment-item-strip">
+            {#items}
+            <strip-item class="{cssClass}" model-id="{id}">
+                <div>
+                    <img src="{img}?width=73&amp;height=100" />
+                </div>
+                {@if cond="'{remove}'"}
+                <label data-id="{id}">Remove</label>
+                {/if}
+            </strip-item>
+            {/items}
+        </ui-template>
+    </template>
+</ui-item-strip>

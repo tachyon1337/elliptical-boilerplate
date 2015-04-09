@@ -1,0 +1,99 @@
+//custom site/project mixins
+
+@mixin live-reload(){
+  @-webkit-keyframes livefix { from { opacity: 1; } to { opacity: 1; } }
+  html { -webkit-animation: livefix infinite 1s; }
+}
+
+
+@mixin pop-over-link(){
+  .pop-over-link{
+    display:inline-block;
+    pop-content{
+      width:400px;
+      left:0 !important;
+      @include phone-content(){
+
+      }
+    }
+    span{
+      color:map-get($Core,primary,color);
+      font-weight:bold;
+      cursor:pointer;
+    }
+  }
+}
+
+
+@mixin demo-footer(){
+  footer[data-role=footer] {
+    margin-top: 4rem;
+    min-height: 150px;
+    background: map-get($colors,footer-background);
+    width: 100%;
+    top: 0;
+    padding-bottom:2em;
+    & > hr {
+      padding: 0;
+      border-top: 1px solid map-get($colors,white-gray);
+      height: 1px;
+      background: map-get($Base,off-white);
+      &:first-child {
+        margin: 0 0 1.5em 0;
+      }
+    }
+
+    .header-icon{
+      @include flexbox();
+      span{
+        margin-right:.2em;
+        font-size:64px;
+      }
+    }
+    .link-dark{
+      color:$black;
+      &:hover{
+        color:lighten(map-get($Base,black),5%);
+      }
+    }
+  }
+
+}
+
+@mixin demo-badge(){
+  .demo-badge{
+    //@include web-component-default($component:ci-default-light);
+    min-height:265px;
+    border-radius:5px;
+    .asp-header{
+      margin-top:-.5em;
+    }
+    .demo-carousel{
+      width:350px;
+      padding-top:2em;
+    }
+  }
+}
+
+@mixin demo-flex(){
+  .demo-flex{
+    @include flexbox($justification:flex-start,$alignment:space-between);
+    @include flex-wrap(wrap);
+    .demo-carousel{
+      width:110%;
+      @include order(3);
+      background:map-get($colors,light);
+      border:1px solid map-get($Base,gray);
+      border-left:0;
+      border-right:0;
+      @include gutter-collapse-m();
+      margin-top:1em;
+    }
+    .logo-main{
+      @include order(1);
+    }
+    .demo-web-components{
+      @include order(2);
+    }
+  }
+}

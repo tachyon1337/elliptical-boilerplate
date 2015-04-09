@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html class="customelements">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>My App</title>
+    <script src="scripts/platform.js"></script>
+    <link href="css/app.css" rel="stylesheet">
+    <link rel="import" href="elements/ui-topbar.html">
+    <link rel="import" href="components/ui-sticky-reveal/ui-sticky-reveal.html">
+    <link rel="import" href="components/ui-account/ui-signup-form/ui-signup-form.html">
+    <link rel="import" href="elements/oauth-login.html">
+    <link rel="import" href="shared/footer.html" id="footer-doc">
+</head>
+<body controller="home-link">
+<ui-container name="base" class="ui-sticky-footer">
+    <ui-topbar></ui-topbar>
+    <section class="outer">
+        <grid-row>
+            <grid-columns class="desktop-6 tablet-6 default-12 bordered">
+                <h3>Sign Up</h3>
+                <p>&nbsp;</p>
+                <ui-signup-form service="Membership" role="form" scope="form" class="form-width" ea-register></ui-signup-form>
+                <flex-box class="space-around form-width">
+                    <a class="blue sans">Sign In</a>
+                    <a class="blue sans">Forgot Password?</a>
+                </flex-box>
+            </grid-columns>
+            <grid-columns class="desktop-6 tablet-6 default-12 touch-flex-center">
+                <oauth-login></oauth-login>
+            </grid-columns>
+        </grid-row>
+    </section>
+    <script src="scripts/footer-import.js"></script>
+    <footer data-role="footer"></footer>
+</ui-container>
+<link rel="import" property="scripts" href="bundles/dev-bundle.html">
+<link rel="import" property="scripts" href="bundles/bundle.html">
+<link rel="import" property="scripts" href="bundles/app-bundle.html">
+</body>
+</html>

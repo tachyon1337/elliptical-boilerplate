@@ -1,0 +1,86 @@
+<script src="ui-bag.js"></script>
+<script src="shopping-bag.js"></script>
+
+<shopping-bag>
+ <template>
+  <ui-template id="fragment-shopping-bag">
+  {#bag}
+    <ui-flex-container class="bag-header">
+        <h5>Shopping Bag</h5>
+    </ui-flex-container>
+    <bag-container model-id="{id}">
+        <bag-list>
+            <header>
+                <div><h5>Item</h5></div>
+                <div><h5>Qty</h5></div>
+                <div><h5>Price</h5></div>
+                <div><h5>Subtotal</h5></div>
+            </header>
+            {#items}
+                <bag-item model-id="{id}">
+                    <div>
+                        <thumb-image>
+                            <img src="{imgUrl}">
+                        </thumb-image>
+                        <div class="item-descriptions">
+                            <a href="{url}">{name|s}</a>
+                            <a class="bag-remove">Remove</a>
+
+                            <p class="sku">{sku}</p>
+                            {#descriptions}
+                                <p class="hide-for-phone">
+                                    <b>{label}: </b>{text|s}
+                                </p>
+                            {/descriptions}
+                        </div>
+                    </div>
+                    <div><input type="text" value="{quantity}" data-bind="value:quantity" /></div>
+                    <div><span class="price">{@formatCurrency value="{price}" /}</span></div>
+                    <div><span class="price" data-bind="text:subtotal:formatCurrency"></span></div>
+                    <phone-display>
+                        <label>Qty:</label>
+                        <span>{quantity}</span>
+                        <label>Price:</label>
+                        <span class="price">{@formatCurrency value="{price}" /}</span>
+                        <label>Subtotal:</label>
+                        <span class="price" data-bind="text:subtotal:formatCurrency">{@formatCurrency value="{subtotal}" /}</span>
+                    </phone-display>
+                </bag-item>
+            {/items}
+            <footer>
+                <button>update</button>
+            </footer>
+        </bag-list>
+        <bag-summary>
+            <bag-coupon>
+                <label>Have Coupon?</label>
+                <input type="text" data-id="code" data-bind="value:code" value="{code}" placeholder="Enter Promo Code" />
+                <button class="ui-button secondary" id="apply-coupon">apply</button>
+            </bag-coupon>
+            <bag-totals>
+                <div class="item-total">
+                    <div class="label">Subtotal</div>
+                    <div class="amount" data-bind="text:subtotal:formatCurrency">{@formatCurrency value="{subtotal}" /}</div>
+                </div>
+                <div class="item-total">
+                    <div class="label">Discount</div>
+                    <div class="amount" data-bind="text:discount:formatCurrency">{@formatCurrency value="{discount}" /}</div>
+                </div>
+                <div class="item-total">
+                    <div class="label">Total</div>
+                    <div class="amount" data-bind="text:total:formatCurrency">{@formatCurrency value="{total}" /}</div>
+                </div>
+            </bag-totals>
+            <bag-actions>
+                <button class="ui-button secondary full-width">CHECKOUT</button>
+            </bag-actions>
+        </bag-summary>
+    </bag-container>
+    {/bag}
+   </ui-template>
+   <empty-template>
+       <br /><br />
+       <h6>There are currently no items in your shopping bag.</h6>
+   </empty-template>
+  </template>
+</shopping-bag>
