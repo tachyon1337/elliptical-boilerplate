@@ -3,10 +3,10 @@
 Installs an elliptical html boilerplate project. By default, uses libsass for faster sass compilation, although elliptical-sass will compile
 under ruby sass.
 
-## Installation
+# Installation
 
 
-#prerequisites
+##prerequisites
 
 ``` bash
 
@@ -46,7 +46,7 @@ gulp start
 
 ```
 
-## Browser
+# Browser
 
 ``` bash
 
