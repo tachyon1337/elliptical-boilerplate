@@ -1,6 +1,0 @@
-{
-  "path":"/public",
-  "port":"8080",
-  "src":"./app/**/*.js",
-  "dest":"./public/scripts"
-}
