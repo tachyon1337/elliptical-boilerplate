@@ -32,7 +32,6 @@ cd my-project
 
 npm init
 npm install
-gulp build
 
 ```
 
@@ -42,7 +41,7 @@ gulp build
 ``` bash
 
 gulp start
-
+gulp build
 
 ```
 
