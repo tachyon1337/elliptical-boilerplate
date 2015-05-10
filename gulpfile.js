@@ -76,6 +76,17 @@ gulp.task('build', function () {
 });
 
 
+gulp.task('compile',function(){
+    var opts={
+        src:['templates/**/*.html'],
+        fragmentsSrc:['templates/**/*.html'],
+        dest:'public/scripts'
+    };
+    console.log('compiling templates...');
+    tasks.compileTemplates(opts);
+});
+
+
 function startLiveServer(opts){
     var params={
         port:opts.port,
