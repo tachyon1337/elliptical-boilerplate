@@ -1,0 +1,34 @@
+<script src="flex-grid.js"></script>
+<flex-grid>
+    <template>
+        <header>
+            {#columns}
+              <h6 sortable="{sortable}" column="{column}">{name}</h6>
+            {/columns}
+        </header>
+        <div template>
+            <ui-template></ui-template>
+            <footer>
+                <grid-pagination>
+                    {#pagination}
+                    <page-navigation>
+                        <a class="control" data-page="1"><span class="icon-control-rewind"></span></a>
+                        <a class="control" data-page="{prevPage}"><span class="icon-control-reverse"></span></a>
+                       {#pages}
+                        <a class="page {activePage}" data-page="{page}"><span>{page}</span></a>
+                       {/pages}
+                        <a class="control" data-page="{nextPage}"><span class="icon-control-play"></span></a>
+                        <a class="control" data-page="{pageCount}"><span class="icon-control-forward"></span></a>
+                    </page-navigation>
+                    <page-info>
+                        <div>
+                            Page <span>{page}</span> of <span>{pageCount}</span>
+                        </div>
+                        <span class="icon-recycle" refresh></span>
+                    </page-info>
+                    {/pagination>
+                </grid-pagination>
+            </footer>
+        </div>
+    </template>
+</flex-grid>

@@ -19,7 +19,7 @@ Elliptical(function(){
             overlayBackground: '#000',
             includeHome: true,
             homeUrl: '/',
-            homeIcon: 'icon-home-2',
+            homeIcon: 'icon-core-home-2',
             model: [],
             navigationEvents: true,
             delay:1000,

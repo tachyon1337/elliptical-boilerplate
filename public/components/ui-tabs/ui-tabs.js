@@ -1,8 +1,8 @@
 ﻿Elliptical(function () {
 
-    $.element.registerElement('tabbed-items');
+    $.element.registerElement('tab-items');
     $.element.registerElement('tab-item');
-    $.element.registerElement('tabbed-content');
+    $.element.registerElement('content-items');
     $.element.registerElement('tab-content');
    
     $.controller("elliptical.tabs", "ui-tabs", {
@@ -21,6 +21,7 @@
             preventDefault: false,
             autoHide: true,
             stopPropagation: true,
+            dataBind:false
 
 
         },
@@ -57,9 +58,9 @@
          * @private
          */
         _initController: function () {
-            this._data.tabbedItems = 'tabbed-items';
+            this._data.tabbedItems = 'tab-items';
             this._data.tabItem = 'tab-item';
-            this._data.tabbedContent = 'tabbed-content';
+            this._data.tabbedContent = 'content-items';
             this._data.tabContent = 'tab-content';
             this._data.dataId = 'id';
             this._data.dataPreload = 'preload';

@@ -374,15 +374,12 @@ Elliptical(function(){
                 });
                 this._event(touchMenu, 'tap', 'menu-item-dropdown', function (event) {
                     var item = $(event.target);
-                    if (!item.hasClass('close')) {
+                    if (item[0].tagName.toLowerCase()==='menu-item-dropdown') {
                         self._touchToggleDropdown(item);
                     }
 
                 });
-                this._event(touchMenu, 'dbltap', 'menu-item-dropdown', function (event) {
-                    var item = $(event.target);
-                    self._touchToggleDropdown(item);
-                });
+
             }
         },
 

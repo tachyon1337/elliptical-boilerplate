@@ -1,6 +1,19 @@
 <script src="product-gallery.js"></script>
-<product-gallery scope="product" set-visibility="false">
+<product-gallery>
   <template>
-   
+     {#product}
+      {#items}
+      <gallery-item>
+          <a class="img-container" href="{url}">
+              <img src="{img}">
+          </a>
+          <div class="descriptions">
+              <a href="{url}">{name}</a>
+              <div>{description}</div>
+              <div>{sku}</div>
+          </div>
+      </gallery-item>
+      {/items}
+      {/product}
   </template>
 </product-gallery>

@@ -1,42 +1,33 @@
 ﻿Elliptical(function () {
-
-    $.element("elliptical.slidingPanel", "ui-sliding-panel", {
+    $.controller("elliptical.slidingPanel", "ui-sliding-panel", {
 
         //Options to be used as defaults
         options: {
+            dataBind:false,
             durationIn: 1000,
             durationOut: 3000,
             transitionIn: 'slideInRight',
             transitionOut: 'slideOutRight',
-            template: null,
-            isModal: true,
+            modal: true,
             modalCssClass: null,
             modalZIndex: 99999,
-            modalOpacity: .3,
-            model: {}
-
+            modalOpacity: .3
         },
-
-        /* internal/private object store */
-        _data: {
-            isOpen: false,
-            isAnimating: false
-        },
-
-        /*==========================================
-         PRIVATE
-         *===========================================*/
-
 
         /**
          * init
          * @private
          */
-        _initElement: function () {
-            var self = this;
-
+        _initController: function () {
+            this._data.isOpen=false;
+            this._data.isAnimating=false;
         },
 
+        _subscriptions:function(){
+            this._subscribe('sliding.panel.toggle',this._toggle.bind(this));
+            this._subscribe('sliding.panel.show',this._show.bind(this));
+            this._subscribe('sliding.panel.hide',this._hide.bind(this));
+        },
 
         /**
          * show the panel
@@ -47,7 +38,7 @@
             var body = $('body');
             this._data.isAnimating = true;
             this._onEventTrigger('showing', {});
-            if (this.options.isModal) {
+            if (this.options.modal) {
                 var opts = {};
                 if (this.options.modalCssClass) {
                     opts.cssClass = this.options.modalCssClass;
@@ -104,35 +95,31 @@
             });
         },
 
+        _toggle:function(){
+            var isOpen = this._data.isOpen;
+            var isAnimating = this._data.isAnimating;
+            if (isAnimating) {
+                return;
+            }
+            if (!isOpen) {
+                this._show();
+            } else {
+                this._hide();
+            }
+        },
+
         /**
          * remove modal
          * @private
          */
         _killModal: function () {
             var self = this;
-            if (this.options.isModal) {
+            if (this.options.modal) {
                 setTimeout(function () {
                     self._removeModal();
                 }, 500);
             }
         },
-
-        /**
-         * load template
-         * @param opts {Object}
-         * @param callback {Function}
-         * @private
-         */
-        _loadTemplate: function (opts, callback) {
-            var self = this;
-            this._render(this.element, opts, function (err, out) {
-                if (callback) {
-                    callback.call(self, err, out);
-                }
-            });
-        },
-
-
 
         /*==========================================
          PUBLIC METHODS
@@ -148,7 +135,6 @@
             if (!isOpen && !isAnimating) {
                 this._show();
             }
-
         },
 
         /**
@@ -168,16 +154,7 @@
          * @public
          */
         toggle: function () {
-            var isOpen = this._data.isOpen;
-            var isAnimating = this._data.isAnimating;
-            if (isAnimating) {
-                return;
-            }
-            if (!isOpen) {
-                this._show();
-            } else {
-                this._hide();
-            }
+           this._toggle();
         }
 
     });

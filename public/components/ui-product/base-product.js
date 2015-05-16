@@ -35,7 +35,7 @@
             var image = $(event.currentTarget);
             image.addClass('active');
             var mainImage = element.find('main-image').find('img');
-            var altImage = image.find('img');
+            var altImage = image;
             var altImageSrc = altImage.attr('data-src');
             if (altImageSrc !== undefined) {
                 mainImage.attr('src', altImageSrc);
