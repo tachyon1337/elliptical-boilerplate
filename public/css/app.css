@@ -8361,19 +8361,15 @@ flex-box, .flex-box {
 @media only screen and (max-width: 600px) {
   .phone-border {
     border-top: 1px solid #ccc;
-    margin-right: -15px !important;
-    margin-left: -15px !important;
-    width: 110%;
-    padding-left: 1.5em;
-    padding-right: 1.5em;
+    padding-left: 0;
+    padding-right: 0;
     padding-top: 1em;
     padding-bottom: 1.5em; }
   .phone-padding {
     margin-right: -15px !important;
     margin-left: -15px !important;
-    width: 110%;
-    padding-left: 1.5em;
-    padding-right: 1.5em;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
     padding-bottom: 1.5em; }
   .subscribe {
     margin-top: 1em;
