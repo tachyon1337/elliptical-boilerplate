@@ -63,6 +63,19 @@ localhost:9040
 gulp sass [manual compilation]
 gulp sass-watch [auto compilation on changes]
 
+```
+
+## CLI
+
+``` bash
+
+node-sass app.scss ./public/css/app.css
+
+
+```
+
+
+
 
 
 
