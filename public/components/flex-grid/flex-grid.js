@@ -8,23 +8,14 @@ Elliptical(function(){
 
             this._data.isEmptyScope= _.isEmpty(this.$scope);
             if(this.$scope && scopeProp && context){
-                var $scope=context[scopeProp];
-                var columnService=this.options.columnService;
-                if(columnService !==undefined){
-                    var self=this;
-                    this._setColumns(columnService,$scope,function(scope){
-                        self.$scope[scopeProp]=scope;
-                    });
-                }else{
-                    this.$scope[scopeProp]=$scope;
-                }
+                this.$scope=context[scopeProp];
             }
         },
 
         _initController:function(){
             if(this._data.isEmptyScope){
                 this._initPaginationStore();
-                this.bind();
+                this._bind();
             }else{
                 var pagination=this.$scope.pagination;
                 this._setPaginationStore(pagination);
@@ -57,39 +48,36 @@ Elliptical(function(){
         _rebindGrid:function(){
             var self=this;
             var $scope=this.$scope;
+            var data=this._data;
             this.__render($scope,function(){
                 //self.$rebind();
+                var section=self.element.find('section');
+                if(section.children().length===0){
+                    section.empty();
+                }
             });
         },
 
         _resetScope:function(result){
-            var $scope=this.$scope;
-            result.columns=$scope.columns;
             this.$scope=result;
         },
 
         _setPaginationStore:function(p){
-            this._data.page= p.page;
-            this._data.pageCount= p.pageCount;
-            this._data.count= p.count;
+            if(p && p!==undefined){
+                this._data.page= p.page;
+                this._data.pageCount= p.pageCount;
+                this._data.count= p.count;
+            }else{
+                this._data.page= 1;
+                this._data.pageCount= 1;
+                this._data.count= 0;
+            }
         },
 
         _initPaginationStore:function(){
             this._data.page= null;
             this._data.pageCount= null;
             this._data.count= null;
-        },
-
-        _setColumns:function(serviceName,$scope,callback){
-            var service=this.service(serviceName);
-            service.get({},function(err,data){
-                if(!err){
-                    $scope.columns=data;
-                    callback($scope);
-                }else{
-                    callback($scope);
-                }
-            })
         }
     });
 
